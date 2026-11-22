@@ -1,0 +1,2238 @@
+{
+  "revision": 8,
+  "sets": {
+    "p1-28": {
+      "revision": 8,
+      "sourceAudio": "assets/audio/p1-28.mp3",
+      "audio": "assets/audio/p1-28.mp3",
+      "cues": [
+        {
+          "index": 0,
+          "start": 2.0,
+          "end": 9.0,
+          "timed": true,
+          "text": "Hi, Altef. I'm your settlement worker and I'm called Jenny. It's great to meet you.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 1,
+          "start": 9.0,
+          "end": 13.0,
+          "timed": true,
+          "text": "Welcome to our city. You'll love Toronto. I'm sure I will.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 2,
+          "start": 14.0,
+          "end": 20.0,
+          "timed": true,
+          "text": "I have some general recommendations. First, Toronto is a big place. A lot of people who",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 3,
+          "start": 20.0,
+          "end": 25.0,
+          "timed": true,
+          "text": "come here choose to live in the West. I see. Is there a reason for that?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 4,
+          "start": 25.0,
+          "end": 32.0,
+          "timed": true,
+          "text": "Well, yes. There's a great market in the neighborhood. All the local people know about it.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 5,
+          "start": 32.0,
+          "end": 37.0,
+          "timed": true,
+          "text": "That would be good for us. And I understand you have young children.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 6,
+          "start": 38.0,
+          "end": 40.5,
+          "timed": true,
+          "text": "That's right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 7,
+          "start": 39.0,
+          "end": 46.0,
+          "timed": true,
+          "text": "So another advantage of this area is that it has quite a few parks where children can play.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 8,
+          "start": 46.0,
+          "end": 49.0,
+          "timed": true,
+          "text": "Oh, that's great. They really like being outside.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 9,
+          "start": 50.0,
+          "end": 55.0,
+          "timed": true,
+          "text": "I actually know of an apartment in the area that's available. I'll arrange for you to see",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 10,
+          "start": 55.0,
+          "end": 61.0,
+          "timed": true,
+          "text": "it. But first, let's look at the floor plan and I'll tell you what to check when you see it.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 11,
+          "start": 62.0,
+          "end": 67.0,
+          "timed": true,
+          "text": "This room here is the kitchen. Be sure to open the refrigerator.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 12,
+          "start": 68.0,
+          "end": 74.0,
+          "timed": true,
+          "text": "To see if it's working properly. Yes. And to make sure that there's no nasty smell.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 13,
+          "start": 74.0,
+          "end": 76.0,
+          "timed": true,
+          "text": "Oh, anything else?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 14,
+          "start": 76.0,
+          "end": 82.0,
+          "timed": true,
+          "text": "Well, it would be good to check the electrical situation. There's nothing worse than not having enough plugs.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 15,
+          "start": 83.0,
+          "end": 88.0,
+          "timed": true,
+          "text": "You'll need at least four. I'll look for those. What's this on the plan?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 16,
+          "start": 89.0,
+          "end": 95.0,
+          "timed": true,
+          "text": "Well, now that's the living room. And this is where you go outside to a small balcony.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 17,
+          "start": 96.0,
+          "end": 99.0,
+          "timed": true,
+          "text": "Have a look at the door lock. Be sure it's not broken.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 18,
+          "start": 100.0,
+          "end": 104.0,
+          "timed": true,
+          "text": "I will. It'll be nice to have our own place to sit outside when we want.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 19,
+          "start": 104.0,
+          "end": 112.0,
+          "timed": true,
+          "text": "Yes, it's very nice on a summer evening after dinner. And I'll have a good look around the living room.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 20,
+          "start": 112.0,
+          "end": 117.0,
+          "timed": true,
+          "text": "The condition of the room is important because it's your main living area.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 21,
+          "start": 117.0,
+          "end": 122.0,
+          "timed": true,
+          "text": "Look at the paint in particular. It may be time to redo it.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 22,
+          "start": 122.0,
+          "end": 127.0,
+          "timed": true,
+          "text": "I'll check that. Now, listen and answer a question seven to ten.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 23,
+          "start": 129.0,
+          "end": 137.0,
+          "timed": true,
+          "text": "Now, all tough. This hall leads to the bathroom. When you look at that, do check below the sink.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 24,
+          "start": 138.0,
+          "end": 144.0,
+          "timed": true,
+          "text": "Often that's the place you'll find a leak. And the tiles in the bathroom should be in good shape.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 25,
+          "start": 144.0,
+          "end": 153.0,
+          "timed": true,
+          "text": "I agree. Then this room must be one of the bedrooms. And this must be the closet. My wife wants a large one.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 26,
+          "start": 153.0,
+          "end": 161.0,
+          "timed": true,
+          "text": "I'm sure. We all want lots of room for our clothes. You'll also want to look outside the bedroom window.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 27,
+          "start": 161.0,
+          "end": 167.0,
+          "timed": true,
+          "text": "It overlooks the street and there might be a lot of noise at all times of the day and night.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 28,
+          "start": 167.0,
+          "end": 174.0,
+          "timed": true,
+          "text": "We're in a very busy city. I see. That would be a problem for my wife and the boys too.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 29,
+          "start": 175.0,
+          "end": 176.0,
+          "timed": true,
+          "text": "I'll definitely remember to check that.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 30,
+          "start": 177.0,
+          "end": 181.0,
+          "timed": true,
+          "text": "Jenny, what other things are in the building? You mean the facilities?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 31,
+          "start": 182.0,
+          "end": 185.0,
+          "timed": true,
+          "text": "Yes. For example, where will we do our laundry?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 32,
+          "start": 186.0,
+          "end": 191.0,
+          "timed": true,
+          "text": "With a building of this type, it's probably in the basement, but it doesn't say.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 33,
+          "start": 191.0,
+          "end": 197.0,
+          "timed": true,
+          "text": "So you'll need to check where it is. You know what's also really good to check for?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 34,
+          "start": 198.0,
+          "end": 205.0,
+          "timed": true,
+          "text": "No, what? You need to check that there's a garbage room on every floor. Then you don't need to go",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 35,
+          "start": 204.0,
+          "end": 212.0,
+          "timed": true,
+          "text": "outside. Right. Well, that's everything for now. Good luck, all tough. We'll talk later today.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 36,
+          "start": 212.0,
+          "end": 214.0,
+          "timed": true,
+          "text": "Thanks for your help, Jenny.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 37,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "You",
+          "clip": null,
+          "calibrated": false
+        }
+      ]
+    },
+    "p1-32": {
+      "revision": 8,
+      "sourceAudio": "assets/audio/p1-32.mp3",
+      "audio": "assets/audio/p1-32.mp3",
+      "cues": [
+        {
+          "index": 0,
+          "start": 1.0,
+          "end": 9.0,
+          "timed": true,
+          "text": "Test 3. This is the IELTS listening test. You will hear a number of different recordings",
+          "clip": "assets/clips/p1-32/001.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 1,
+          "start": 9.0,
+          "end": 15.0,
+          "timed": true,
+          "text": "and you will have to answer questions on what you hear. There will be time for you to",
+          "clip": "assets/clips/p1-32/002.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 2,
+          "start": 15.0,
+          "end": 21.0,
+          "timed": true,
+          "text": "read the instructions and questions and you will have a chance to check your work. All",
+          "clip": "assets/clips/p1-32/003.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 3,
+          "start": 21.0,
+          "end": 28.0,
+          "timed": true,
+          "text": "the recordings will be played once only. The test is in four parts. At the end of the",
+          "clip": "assets/clips/p1-32/004.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 4,
+          "start": 28.0,
+          "end": 34.0,
+          "timed": true,
+          "text": "test, you will be given ten minutes to transfer your answers to the answer sheet.",
+          "clip": "assets/clips/p1-32/005.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 5,
+          "start": 35.0,
+          "end": 45.0,
+          "timed": true,
+          "text": "Now turn to Part 1 Part 1. You will hear a woman calling about",
+          "clip": "assets/clips/p1-32/006.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 6,
+          "start": 44.0,
+          "end": 51.0,
+          "timed": true,
+          "text": "repairing her broken washing machine. First, you have some time to look at questions",
+          "clip": "assets/clips/p1-32/007.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 7,
+          "start": 50.0,
+          "end": 75.0,
+          "timed": true,
+          "text": "1 to 4. Now listen carefully and answer questions 1 to 4.",
+          "clip": "assets/clips/p1-32/008.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 8,
+          "start": 77.0,
+          "end": 81.0,
+          "timed": true,
+          "text": "Good morning. This is the customer service department of Kingswell washing machine. Roger",
+          "clip": "assets/clips/p1-32/009.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 9,
+          "start": 81.0,
+          "end": 84.0,
+          "timed": true,
+          "text": "speaking, how may I help you? Good morning. I am calling about",
+          "clip": "assets/clips/p1-32/010.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 10,
+          "start": 84.0,
+          "end": 88.0,
+          "timed": true,
+          "text": "the washing machine I bought from the mall several months ago. There is something wrong",
+          "clip": "assets/clips/p1-32/011.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 11,
+          "start": 88.0,
+          "end": 91.0,
+          "timed": true,
+          "text": "with it at the moment. So, what do I have to do?",
+          "clip": "assets/clips/p1-32/012.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 12,
+          "start": 92.0,
+          "end": 95.0,
+          "timed": true,
+          "text": "Ok. First, I need to get a few details about this. Could you give me your name please?",
+          "clip": "assets/clips/p1-32/013.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 13,
+          "start": 95.0,
+          "end": 100.0,
+          "timed": true,
+          "text": "Yes. It is Judy Smith. Ok. I need one more thing. There is a reference",
+          "clip": "assets/clips/p1-32/014.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 14,
+          "start": 100.0,
+          "end": 104.0,
+          "timed": true,
+          "text": "number. It should be in the top right hand corner of the warranty card we gave you.",
+          "clip": "assets/clips/p1-32/015.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 15,
+          "start": 104.0,
+          "end": 112.0,
+          "timed": true,
+          "text": "Let me have a look. Oh, here it is. It is (Q1) CWX-576-884.",
+          "clip": "assets/clips/p1-32/016.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 16,
+          "start": 112.0,
+          "end": 117.0,
+          "timed": true,
+          "text": "Thanks. Well, I need to make sure if your washing machine is still within the warranty period.",
+          "clip": "assets/clips/p1-32/017.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 17,
+          "start": 117.0,
+          "end": 124.0,
+          "timed": true,
+          "text": "So when did you buy it? Oh, sure. I remember I bought it last summer. So, it was about",
+          "clip": "assets/clips/p1-32/018.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 18,
+          "start": 123.0,
+          "end": 129.0,
+          "timed": true,
+          "text": "(Q2) nine months ago. And the card here says this washing machine has a two-year warranty,",
+          "clip": "assets/clips/p1-32/019.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 19,
+          "start": 129.0,
+          "end": 134.0,
+          "timed": true,
+          "text": "so it is definitely within the period. Of course it is madam. Alright, then I need",
+          "clip": "assets/clips/p1-32/020.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 20,
+          "start": 134.0,
+          "end": 140.0,
+          "timed": true,
+          "text": "your address. My old address or my current one? Your current one, as we will send in",
+          "clip": "assets/clips/p1-32/021.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 21,
+          "start": 139.0,
+          "end": 146.0,
+          "timed": true,
+          "text": "someone to fix the washing machine for you. It is 120 (Q3) Middle Street Oxford. And the postcode?",
+          "clip": "assets/clips/p1-32/022.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 22,
+          "start": 146.0,
+          "end": 153.0,
+          "timed": true,
+          "text": "It is (Q4) G-O-194-K-E.",
+          "clip": "assets/clips/p1-32/023.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 23,
+          "start": 153.0,
+          "end": 160.0,
+          "timed": true,
+          "text": "Before you hear the rest of the conversation, you have some time to look at questions 5 to 10.",
+          "clip": "assets/clips/p1-32/024.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 24,
+          "start": 186.0,
+          "end": 196.0,
+          "timed": true,
+          "text": "Now listen and answer questions 5 to 10. Now, I need to know the exact problem of",
+          "clip": "assets/clips/p1-32/025.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 25,
+          "start": 195.0,
+          "end": 200.0,
+          "timed": true,
+          "text": "the washing machine. Could you describe it in detail? Actually, the washing machine did",
+          "clip": "assets/clips/p1-32/026.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 26,
+          "start": 200.0,
+          "end": 205.0,
+          "timed": true,
+          "text": "work very well until last weekend. I put some clothes into it, and it worked normally",
+          "clip": "assets/clips/p1-32/027.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 27,
+          "start": 205.0,
+          "end": 210.0,
+          "timed": true,
+          "text": "at first. Then I just got down to doing some gardening. But after about 30 minutes when",
+          "clip": "assets/clips/p1-32/028.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 28,
+          "start": 210.0,
+          "end": 215.0,
+          "timed": true,
+          "text": "it came back to the house, I found it was leaking. The (Q5) water had soaked the entire floor.",
+          "clip": "assets/clips/p1-32/029.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 29,
+          "start": 215.0,
+          "end": 219.0,
+          "timed": true,
+          "text": "I am sorry to hear that, madam. So did you do anything to make the leaking stop?",
+          "clip": "assets/clips/p1-32/030.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 30,
+          "start": 219.0,
+          "end": 224.0,
+          "timed": true,
+          "text": "At that moment the washing machine was totally out of control. And the alarm and it also",
+          "clip": "assets/clips/p1-32/031.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 31,
+          "start": 224.0,
+          "end": 228.0,
+          "timed": true,
+          "text": "started to sound. I thought there was not much point in pressing any button on the machine.",
+          "clip": "assets/clips/p1-32/032.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 32,
+          "start": 228.0,
+          "end": 233.0,
+          "timed": true,
+          "text": "So I just (Q6) switched off the machine straight away. Then it stopped leaking at once, thank",
+          "clip": "assets/clips/p1-32/033.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 33,
+          "start": 233.0,
+          "end": 236.0,
+          "timed": true,
+          "text": "goodness. Well, I think that was the only thing you could do.",
+          "clip": "assets/clips/p1-32/034.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 34,
+          "start": 236.0,
+          "end": 242.0,
+          "timed": true,
+          "text": "Oh, then I found my floor was nearly a disaster. As it is made of (Q7) wood rather than marble,",
+          "clip": "assets/clips/p1-32/035.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 35,
+          "start": 242.0,
+          "end": 247.0,
+          "timed": true,
+          "text": "it could not be soaked in water for a long time. So what I did in the next two hours was",
+          "clip": "assets/clips/p1-32/036.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 36,
+          "start": 247.0,
+          "end": 252.0,
+          "timed": true,
+          "text": "wiping up the water on the floor. Right. Later, I tried the washing machine once more,",
+          "clip": "assets/clips/p1-32/037.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 37,
+          "start": 252.0,
+          "end": 257.0,
+          "timed": true,
+          "text": "but the problem still existed. Well, I've taken down all the related information. Later",
+          "clip": "assets/clips/p1-32/038.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 38,
+          "start": 257.0,
+          "end": 260.0,
+          "timed": true,
+          "text": "we'll send a (Q8) client engineer to your house to fix it.",
+          "clip": "assets/clips/p1-32/039.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 39,
+          "start": 260.0,
+          "end": 265.0,
+          "timed": true,
+          "text": "Okay. Could you arrange the repair work as soon as possible, as I'm too busy at work",
+          "clip": "assets/clips/p1-32/040.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 40,
+          "start": 264.0,
+          "end": 267.0,
+          "timed": true,
+          "text": "to do the laundry by hand? How about this Saturday?",
+          "clip": "assets/clips/p1-32/041.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 41,
+          "start": 269.0,
+          "end": 275.0,
+          "timed": true,
+          "text": "I have to check the schedule of the repair man. Oh, sorry, madam. Saturday has been occupied.",
+          "clip": "assets/clips/p1-32/042.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 42,
+          "start": 275.0,
+          "end": 279.0,
+          "timed": true,
+          "text": "The earliest day we can arrange for you is (Q9) next Tuesday. Is that okay with you?",
+          "clip": "assets/clips/p1-32/043.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 43,
+          "start": 279.0,
+          "end": 286.0,
+          "timed": true,
+          "text": "Fine. I can take a leave from work that day. Anyway, thanks. Oh, my house is easy to find.",
+          "clip": "assets/clips/p1-32/044.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 44,
+          "start": 286.0,
+          "end": 289.0,
+          "timed": true,
+          "text": "It's near the central market just across from the (Q10) post office.",
+          "clip": "assets/clips/p1-32/045.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 45,
+          "start": 289.0,
+          "end": 293.0,
+          "timed": true,
+          "text": "All right. And the last thing, could you tell me your phone number please?",
+          "clip": "assets/clips/p1-32/046.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 46,
+          "start": 294.0,
+          "end": 302.0,
+          "timed": true,
+          "text": "Sure. It's 3864-1757. Okay. I've got it. The repairman will contact you before he comes.",
+          "clip": "assets/clips/p1-32/047.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 47,
+          "start": 302.0,
+          "end": 306.0,
+          "timed": true,
+          "text": "Okay. Thank you very much. You're welcome. Bye. Bye.",
+          "clip": "assets/clips/p1-32/048.m4a",
+          "calibrated": true
+        },
+        {
+          "index": 48,
+          "start": 308.0,
+          "end": 315.0,
+          "timed": true,
+          "text": "That is the end of part one. You now have one minute to check your answers to part one.",
+          "clip": "assets/clips/p1-32/049.m4a",
+          "calibrated": true
+        }
+      ]
+    },
+    "p1-34": {
+      "revision": 8,
+      "sourceAudio": "assets/audio/p1-34.mp3",
+      "audio": "assets/audio/p1-34.mp3",
+      "cues": [
+        {
+          "index": 0,
+          "start": 12.0,
+          "end": 20.0,
+          "timed": true,
+          "text": "Now listen carefully and answer questions one to five.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 1,
+          "start": 20.0,
+          "end": 22.0,
+          "timed": true,
+          "text": "Hello, Clarence House.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 2,
+          "start": 22.0,
+          "end": 23.0,
+          "timed": true,
+          "text": "Oh hello.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 3,
+          "start": 23.0,
+          "end": 29.0,
+          "timed": true,
+          "text": "I'm getting married next year and I understand your license to hold weddings at the hotel",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 4,
+          "start": 29.0,
+          "end": 31.0,
+          "timed": true,
+          "text": "Yes, we are.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 5,
+          "start": 32.0,
+          "end": 34.0,
+          "timed": true,
+          "text": "Can I ask what date you were thinking of?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 6,
+          "start": 34.0,
+          "end": 38.0,
+          "timed": true,
+          "text": "Either the 1st or the 7th of June.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 7,
+          "start": 38.0,
+          "end": 40.0,
+          "timed": true,
+          "text": "Right, let me see.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 8,
+          "start": 40.0,
+          "end": 48.0,
+          "timed": true,
+          "text": "Oh, I'm afraid we already have a booking for the 7th, but we still have availability on June",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 9,
+          "start": 48.0,
+          "end": 49.0,
+          "timed": true,
+          "text": "the 1st.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 10,
+          "start": 49.0,
+          "end": 50.0,
+          "timed": true,
+          "text": "That would be fine.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 11,
+          "start": 51.0,
+          "end": 54.0,
+          "timed": true,
+          "text": "So, how many guests are you going to be inviting?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 12,
+          "start": 54.0,
+          "end": 55.0,
+          "timed": true,
+          "text": "About 80.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 13,
+          "start": 56.0,
+          "end": 60.0,
+          "timed": true,
+          "text": "So for that number, we'd recommend the Oxford suite.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 14,
+          "start": 60.0,
+          "end": 62.0,
+          "timed": true,
+          "text": "I don't know if you've been to the hotel.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 15,
+          "start": 63.0,
+          "end": 65.5,
+          "timed": true,
+          "text": "Yes.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 16,
+          "start": 63.0,
+          "end": 68.0,
+          "timed": true,
+          "text": "In fact, I went to a wedding there a few years ago and I was really impressed.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 17,
+          "start": 69.0,
+          "end": 70.0,
+          "timed": true,
+          "text": "Very good.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 18,
+          "start": 70.0,
+          "end": 72.0,
+          "timed": true,
+          "text": "I think we're in the Oxford suite then.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 19,
+          "start": 73.0,
+          "end": 78.0,
+          "timed": true,
+          "text": "The room where we were eating had big windows with really good views.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 20,
+          "start": 78.0,
+          "end": 80.0,
+          "timed": true,
+          "text": "You could see right across the (Q1) city.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 21,
+          "start": 81.0,
+          "end": 82.0,
+          "timed": true,
+          "text": "That's it.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 22,
+          "start": 82.0,
+          "end": 88.0,
+          "timed": true,
+          "text": "If you'd have exclusive access to the garden, it'll be at its best in June.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 23,
+          "start": 88.0,
+          "end": 90.0,
+          "timed": true,
+          "text": "So we could have the (Q2) photos there.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 24,
+          "start": 90.0,
+          "end": 91.0,
+          "timed": true,
+          "text": "Sure.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 25,
+          "start": 91.0,
+          "end": 94.0,
+          "timed": true,
+          "text": "In fact, you can even have the ceremony there if you want.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 26,
+          "start": 95.0,
+          "end": 96.0,
+          "timed": true,
+          "text": "It makes a lovely background.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 27,
+          "start": 97.0,
+          "end": 99.0,
+          "timed": true,
+          "text": "Oh, I hadn't thought of that.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 28,
+          "start": 99.0,
+          "end": 101.0,
+          "timed": true,
+          "text": "Yes, that's certainly an idea.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 29,
+          "start": 102.0,
+          "end": 104.0,
+          "timed": true,
+          "text": "And is there somewhere for dancing?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 30,
+          "start": 105.0,
+          "end": 107.5,
+          "timed": true,
+          "text": "Yes.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 31,
+          "start": 106.0,
+          "end": 109.0,
+          "timed": true,
+          "text": "There's plenty of space in the middle of the dining room.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 32,
+          "start": 108.0,
+          "end": 110.0,
+          "timed": true,
+          "text": "Oh, yeah.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 33,
+          "start": 110.0,
+          "end": 111.0,
+          "timed": true,
+          "text": "I remember now.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 34,
+          "start": 111.0,
+          "end": 117.0,
+          "timed": true,
+          "text": "So just to give you an idea, would you like me to tell you about our special wedding",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 35,
+          "start": 117.0,
+          "end": 118.0,
+          "timed": true,
+          "text": "package?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 36,
+          "start": 118.0,
+          "end": 120.5,
+          "timed": true,
+          "text": "Sure.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 37,
+          "start": 119.0,
+          "end": 121.5,
+          "timed": true,
+          "text": "Right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 38,
+          "start": 120.0,
+          "end": 127.0,
+          "timed": true,
+          "text": "So for 80 guests, you'd have the exclusive use of the Oxford suite, as I said, and then",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 39,
+          "start": 126.0,
+          "end": 127.0,
+          "timed": true,
+          "text": "a meal.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 40,
+          "start": 127.0,
+          "end": 132.0,
+          "timed": true,
+          "text": "So that would be in the dining room and that would be a sit-down meal with three courses.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 41,
+          "start": 133.0,
+          "end": 134.0,
+          "timed": true,
+          "text": "And how's the room arranged?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 42,
+          "start": 135.0,
+          "end": 138.0,
+          "timed": true,
+          "text": "I seem to remember you have (Q3) round tables.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 43,
+          "start": 138.0,
+          "end": 139.0,
+          "timed": true,
+          "text": "That's right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 44,
+          "start": 139.0,
+          "end": 142.0,
+          "timed": true,
+          "text": "Most people prefer them to long tables.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 45,
+          "start": 142.0,
+          "end": 145.0,
+          "timed": true,
+          "text": "Long tables aren't really very friendly, are they?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 46,
+          "start": 145.0,
+          "end": 148.0,
+          "timed": true,
+          "text": "And what about decorations on the tables?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 47,
+          "start": 149.0,
+          "end": 150.0,
+          "timed": true,
+          "text": "They're included in the package.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 48,
+          "start": 151.0,
+          "end": 154.0,
+          "timed": true,
+          "text": "And we have white linen tablecloths and white chair covers.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 49,
+          "start": 155.0,
+          "end": 160.0,
+          "timed": true,
+          "text": "And we also include an individually designed (Q5) menu specially printed for you.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 50,
+          "start": 160.0,
+          "end": 164.0,
+          "timed": true,
+          "text": "It's something that people can take away to remember the occasion.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 51,
+          "start": 164.0,
+          "end": 167.0,
+          "timed": true,
+          "text": "That's something we've just started doing this year.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 52,
+          "start": 167.0,
+          "end": 168.0,
+          "timed": true,
+          "text": "All right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 53,
+          "start": 171.0,
+          "end": 210.0,
+          "timed": true,
+          "text": "Before you hear the rest of the conversation, you have some time to look at question 6-10.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 54,
+          "start": 210.0,
+          "end": 215.0,
+          "timed": true,
+          "text": "And then towards the end of the evening, when everyone's beginning to run out of energy,",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 55,
+          "start": 215.0,
+          "end": 222.0,
+          "timed": true,
+          "text": "we bring in a buffet, nothing too complicated, just a selection of (Q6) sandwiches together with",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 56,
+          "start": 222.0,
+          "end": 223.0,
+          "timed": true,
+          "text": "tea or coffee.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 57,
+          "start": 223.0,
+          "end": 225.0,
+          "timed": true,
+          "text": "That's always very popular.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 58,
+          "start": 226.0,
+          "end": 228.5,
+          "timed": true,
+          "text": "Right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 59,
+          "start": 227.0,
+          "end": 228.0,
+          "timed": true,
+          "text": "And we want some music.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 60,
+          "start": 229.0,
+          "end": 230.0,
+          "timed": true,
+          "text": "Is that included in the package?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 61,
+          "start": 231.0,
+          "end": 233.5,
+          "timed": true,
+          "text": "No.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 62,
+          "start": 232.0,
+          "end": 234.0,
+          "timed": true,
+          "text": "But we could probably get you a DJ.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 63,
+          "start": 235.0,
+          "end": 238.0,
+          "timed": true,
+          "text": "Or we know of a very good band if you'd prefer that.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 64,
+          "start": 238.0,
+          "end": 241.0,
+          "timed": true,
+          "text": "Yes, that'd be better, actually.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 65,
+          "start": 241.0,
+          "end": 243.0,
+          "timed": true,
+          "text": "Something to get everyone on their feet.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 66,
+          "start": 244.0,
+          "end": 245.0,
+          "timed": true,
+          "text": "Good.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 67,
+          "start": 245.0,
+          "end": 250.0,
+          "timed": true,
+          "text": "So apart from the music, you said that's an all-inclusive package.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 68,
+          "start": 250.0,
+          "end": 253.0,
+          "timed": true,
+          "text": "So how much does that package come to?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 69,
+          "start": 256.0,
+          "end": 257.0,
+          "timed": true,
+          "text": "£(Q7) 5,995.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 70,
+          "start": 258.0,
+          "end": 262.0,
+          "timed": true,
+          "text": "That's a bit more than the package they quoted for me at the Stanley Hotel.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 71,
+          "start": 263.0,
+          "end": 265.0,
+          "timed": true,
+          "text": "There's was £4,500.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 72,
+          "start": 266.0,
+          "end": 267.0,
+          "timed": true,
+          "text": "Yes.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 73,
+          "start": 267.0,
+          "end": 270.0,
+          "timed": true,
+          "text": "But I think if you look at what you're getting for the money,",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 74,
+          "start": 270.0,
+          "end": 272.0,
+          "timed": true,
+          "text": "you'll find where the best value.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 75,
+          "start": 273.0,
+          "end": 275.0,
+          "timed": true,
+          "text": "And it is a big day after all.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 76,
+          "start": 275.0,
+          "end": 277.0,
+          "timed": true,
+          "text": "Yes, you're probably right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 77,
+          "start": 278.0,
+          "end": 279.0,
+          "timed": true,
+          "text": "Oh, and I nearly forgot.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 78,
+          "start": 280.0,
+          "end": 284.0,
+          "timed": true,
+          "text": "I'm looking for someone who can make me a really special (Q8) cake.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 79,
+          "start": 284.0,
+          "end": 285.0,
+          "timed": true,
+          "text": "Can you suggest one?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 80,
+          "start": 286.0,
+          "end": 288.5,
+          "timed": true,
+          "text": "Certainly.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 81,
+          "start": 287.0,
+          "end": 289.0,
+          "timed": true,
+          "text": "There's a new company that we've started using.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 82,
+          "start": 290.0,
+          "end": 291.0,
+          "timed": true,
+          "text": "They're very good.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 83,
+          "start": 291.0,
+          "end": 296.0,
+          "timed": true,
+          "text": "In fact, our wedding coordinator will be able to give you all sorts of advice.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 84,
+          "start": 296.0,
+          "end": 300.0,
+          "timed": true,
+          "text": "We can offer you a free consultation and a tour of the venue.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 85,
+          "start": 300.0,
+          "end": 303.0,
+          "timed": true,
+          "text": "Yes, well, I'd definitely be interested.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 86,
+          "start": 304.0,
+          "end": 306.5,
+          "timed": true,
+          "text": "Right.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 87,
+          "start": 304.0,
+          "end": 309.0,
+          "timed": true,
+          "text": "Well, the coordinator's name is Sarah (Q9) Izard.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 88,
+          "start": 309.0,
+          "end": 313.0,
+          "timed": true,
+          "text": "That's I-Z-A-R-D.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 89,
+          "start": 313.0,
+          "end": 316.0,
+          "timed": true,
+          "text": "Now, when would you like to meet her?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 90,
+          "start": 317.0,
+          "end": 321.0,
+          "timed": true,
+          "text": "She's available from nine to five most weekdays,",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 91,
+          "start": 321.0,
+          "end": 323.0,
+          "timed": true,
+          "text": "or later, if that's more convenient.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 92,
+          "start": 325.0,
+          "end": 329.0,
+          "timed": true,
+          "text": "I'm three on the 12th of October in the morning,",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 93,
+          "start": 328.0,
+          "end": 332.0,
+          "timed": true,
+          "text": "sometime, or the (Q10) 15th of October.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 94,
+          "start": 332.0,
+          "end": 334.0,
+          "timed": true,
+          "text": "That would be better, thanks.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 95,
+          "start": 335.0,
+          "end": 337.0,
+          "timed": true,
+          "text": "Should we say 11.30?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 96,
+          "start": 337.0,
+          "end": 339.5,
+          "timed": true,
+          "text": "Fine.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 97,
+          "start": 338.0,
+          "end": 341.0,
+          "timed": true,
+          "text": "Can I just take your name and a contact number?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 98,
+          "start": 341.0,
+          "end": 343.0,
+          "timed": true,
+          "text": "Sure. It's Debbie.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 99,
+          "start": 346.0,
+          "end": 349.0,
+          "timed": true,
+          "text": "That is the end of part one.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 100,
+          "start": 349.0,
+          "end": 353.0,
+          "timed": true,
+          "text": "You now have one minute to check your answers to part one.",
+          "clip": null,
+          "calibrated": true
+        }
+      ]
+    },
+    "p1-42": {
+      "revision": 8,
+      "sourceAudio": "assets/audio/p1-42.mp3",
+      "audio": "assets/audio/p1-42.mp3",
+      "cues": [
+        {
+          "index": 0,
+          "start": 6.0,
+          "end": 11.0,
+          "timed": true,
+          "text": "Hi there, I heard about the Upper Province Folk Festival and I'm interested in attending.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 1,
+          "start": 11.0,
+          "end": 12.0,
+          "timed": true,
+          "text": "When is it happening this year?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 2,
+          "start": 13.0,
+          "end": 18.0,
+          "timed": true,
+          "text": "This year's Upper Province Folk Festival will be held on a weekend in (Q1) June.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 3,
+          "start": 18.0,
+          "end": 21.0,
+          "timed": true,
+          "text": "Traditionally, it has always been held in May.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 4,
+          "start": 21.0,
+          "end": 23.0,
+          "timed": true,
+          "text": "That's great to know.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 5,
+          "start": 23.0,
+          "end": 25.0,
+          "timed": true,
+          "text": "I'm planning to bring my kids along.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 6,
+          "start": 25.0,
+          "end": 29.0,
+          "timed": true,
+          "text": "When is 14 years old and the other is 13 years old?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 7,
+          "start": 29.0,
+          "end": 32.0,
+          "timed": true,
+          "text": "I'm sorry, but they need to purchase tickets.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 8,
+          "start": 33.0,
+          "end": 38.0,
+          "timed": true,
+          "text": "Only children aged (Q2) 12 or younger can participate in this event for free.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 9,
+          "start": 39.0,
+          "end": 41.5,
+          "timed": true,
+          "text": "Wonderful.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 10,
+          "start": 40.0,
+          "end": 42.0,
+          "timed": true,
+          "text": "Where exactly is the festival taking place?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 11,
+          "start": 42.0,
+          "end": 45.0,
+          "timed": true,
+          "text": "The festival will be held at (Q3) Donaldson Farm.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 12,
+          "start": 46.0,
+          "end": 50.0,
+          "timed": true,
+          "text": "The owner, who is a music lover, has graciously sponsored this event.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 13,
+          "start": 50.0,
+          "end": 54.0,
+          "timed": true,
+          "text": "I'll spell the name for you to help you locate it.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 14,
+          "start": 54.0,
+          "end": 59.0,
+          "timed": true,
+          "text": "D-O-N-A-L-S-O-N.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 15,
+          "start": 60.0,
+          "end": 62.0,
+          "timed": true,
+          "text": "That sounds like a perfect location.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 16,
+          "start": 63.0,
+          "end": 65.0,
+          "timed": true,
+          "text": "How can I purchase tickets for the festival?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 17,
+          "start": 65.0,
+          "end": 73.0,
+          "timed": true,
+          "text": "To participate in the event, you will need to purchase a combined (Q4) ticket that allows you access to all activities.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 18,
+          "start": 73.0,
+          "end": 80.0,
+          "timed": true,
+          "text": "Buying single tickets for each activity separately can result in significant fees when accumulated.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 19,
+          "start": 81.0,
+          "end": 84.0,
+          "timed": true,
+          "text": "I see, what is the schedule for the festival?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 20,
+          "start": 85.0,
+          "end": 86.0,
+          "timed": true,
+          "text": "When should I arrive?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 21,
+          "start": 87.0,
+          "end": 96.0,
+          "timed": true,
+          "text": "The festival is scheduled to start on Saturday, but the camping service is provided on a first come, first served basis.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 22,
+          "start": 97.0,
+          "end": 101.0,
+          "timed": true,
+          "text": "It is recommended to arrive on (Q5) Thursday to secure your camping spot.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 23,
+          "start": 102.0,
+          "end": 103.0,
+          "timed": true,
+          "text": "Good to know.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 24,
+          "start": 103.0,
+          "end": 106.0,
+          "timed": true,
+          "text": "Is there anything else I should be aware of while camping?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 25,
+          "start": 107.0,
+          "end": 112.0,
+          "timed": true,
+          "text": "It is strongly recommended to bring a (Q6) light with you as it can get very dark at night.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 26,
+          "start": 112.0,
+          "end": 115.0,
+          "timed": true,
+          "text": "and it's important to ensure the safety of your children.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 27,
+          "start": 116.0,
+          "end": 118.0,
+          "timed": true,
+          "text": "Thank you for the advice.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 28,
+          "start": 118.0,
+          "end": 121.0,
+          "timed": true,
+          "text": "Are there any special activities for children?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 29,
+          "start": 121.0,
+          "end": 128.0,
+          "timed": true,
+          "text": "Yes, we have a wide range of options for children, including campfire singalongs and nature walks.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 30,
+          "start": 128.0,
+          "end": 138.0,
+          "timed": true,
+          "text": "One of the highlights is the opportunity for children to attend a (Q7) concert on the last night, where they can even perform music with professional musicians.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 31,
+          "start": 139.0,
+          "end": 142.0,
+          "timed": true,
+          "text": "So you can bring your musical instruments if you want.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 32,
+          "start": 142.0,
+          "end": 144.0,
+          "timed": true,
+          "text": "That's good to know.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 33,
+          "start": 144.0,
+          "end": 146.0,
+          "timed": true,
+          "text": "What are some essential items we should bring?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 34,
+          "start": 146.0,
+          "end": 149.0,
+          "timed": true,
+          "text": "Some essential items to bring include (Q8) sunscreen.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 35,
+          "start": 150.0,
+          "end": 157.0,
+          "timed": true,
+          "text": "Camping often involves spending a significant amount of time outdoors exposed to the sun's rays.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 36,
+          "start": 157.0,
+          "end": 160.0,
+          "timed": true,
+          "text": "It is important to protect your skin.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 37,
+          "start": 160.0,
+          "end": 162.0,
+          "timed": true,
+          "text": "That sounds like a lot of fun.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 38,
+          "start": 163.0,
+          "end": 167.0,
+          "timed": true,
+          "text": "If someone gets injured or feels unwell during the festival.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 39,
+          "start": 167.0,
+          "end": 173.0,
+          "timed": true,
+          "text": "The emergency station in the camp can handle minor injuries, mosquito bites and (Q9) headaches.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 40,
+          "start": 174.0,
+          "end": 179.0,
+          "timed": true,
+          "text": "However, participants should bring their own medicine if they have allergies or asthma.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 41,
+          "start": 179.0,
+          "end": 182.0,
+          "timed": true,
+          "text": "Is there a medical professional available on site?",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 42,
+          "start": 183.0,
+          "end": 186.0,
+          "timed": true,
+          "text": "Yes, there will be a (Q10) nurse available at all times.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 43,
+          "start": 187.0,
+          "end": 191.0,
+          "timed": true,
+          "text": "You can consult her if your children feel uncomfortable or have ailments.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 44,
+          "start": 192.0,
+          "end": 199.0,
+          "timed": true,
+          "text": "Additionally, the camping area has hired a doctor as a consultant who will be located in the nearby town.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 45,
+          "start": 200.0,
+          "end": 207.0,
+          "timed": true,
+          "text": "The doctor will be present in the camp only when there is a need to address complicated medical conditions.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 46,
+          "start": 208.0,
+          "end": 211.0,
+          "timed": true,
+          "text": "Thank you so much for answering all my questions.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 47,
+          "start": 211.0,
+          "end": 212.0,
+          "timed": true,
+          "text": "You're welcome.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 48,
+          "start": 212.0,
+          "end": 217.0,
+          "timed": true,
+          "text": "If you have any more questions or need further assistance, feel free to reach out.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 49,
+          "start": 217.0,
+          "end": 220.0,
+          "timed": true,
+          "text": "To hear to help, enjoy the festival.",
+          "clip": null,
+          "calibrated": true
+        },
+        {
+          "index": 50,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        },
+        {
+          "index": 51,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        },
+        {
+          "index": 52,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        },
+        {
+          "index": 53,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        },
+        {
+          "index": 54,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        },
+        {
+          "index": 55,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        },
+        {
+          "index": 56,
+          "start": null,
+          "end": null,
+          "timed": false,
+          "text": "",
+          "clip": null,
+          "calibrated": false
+        }
+      ]
+    }
+  }
+}

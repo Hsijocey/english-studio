@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="听力台">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#111d33">
+  <title>英语听力训练台</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar" aria-label="主导航">
+      <div class="brand">
+        <span class="brand-mark brand-cover"><img src="./icon-192.png" alt="听力训练台封面"></span>
+        <span><strong>听力训练台</strong><small>LISTENING DESK</small></span>
+        <a class="mobile-home-link" href="../">← 总台</a>
+      </div>
+      <div class="side-label">工作区</div>
+      <nav class="nav">
+        <button data-view="home" class="active"><span>▦</span> 今日任务</button>
+        <button data-view="bank"><span>▤</span> 题库 <b id="bank-count">53</b></button>
+        <button data-view="mistakes"><span>✎</span> 错题本 <b id="mistake-count">0</b></button>
+        <button data-view="history"><span>◷</span> 训练记录</button>
+        <button data-view="settings"><span>⚙</span> 数据与设置</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="rhythm-mini"><span class="pulse-dot"></span> 依完成日推进</div>
+        <strong>1 · 2 · 7</strong>
+        <p>忙几天也没关系。未完成的复习会留在待办里。</p>
+        <p style="margin-top:10px;"><a href="../" style="color:#8db6ff;text-decoration:none;font-size:12px;">← 返回英语学习总台</a></p>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">英语听力 <span>/</span> <span id="breadcrumb-name">今日任务</span></div>
+        <div class="top-right">
+          <span id="sync-status" role="status" data-state="loading">正在读取本机进度…</span>
+          <a id="sync-signin" hidden href="#">重新连接</a>
+          <span id="today-label"></span>
+          <span class="avatar">L</span>
+        </div>
+      </header>
+      <div id="notice" class="notice" role="status" hidden></div>
+      <section id="cue-player-panel" class="cue-player-panel" hidden aria-label="独立错句回听">
+        <strong id="cue-player-label" role="status"></strong>
+        <audio id="cue-audio" controls preload="none"></audio>
+        <button id="stop-cue" class="text-btn">停止本段回听</button>
+      </section>
+      <div id="app" aria-live="polite"></div>
+    </main>
+  </div>
+  <div id="img-lightbox" class="img-lightbox" hidden role="dialog" aria-modal="true" aria-label="题页大图预览">
+    <button type="button" id="close-lightbox" class="lightbox-close" aria-label="关闭放大预览">×</button>
+    <img id="lightbox-img" src="" alt="题页放大图">
+  </div>
+  <audio id="audio" preload="metadata" playsinline></audio>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
