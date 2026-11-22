@@ -4,9 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="英语学习">
   <meta name="mobile-web-app-capable" content="yes">
-  <meta name="theme-color" content="#f4f7fb">
-  <title>英语学习本地工作室 · 听写台 &amp; 听力台</title>
+  <meta name="theme-color" content="#111d33">
+  <title>英语学习台 · 听力 &amp; 听写</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <style>
     :root {
       --bg: #f4f7fb;
@@ -18,182 +22,159 @@
       --accent-soft: #eaf2ff;
       --teal: #0f8a78;
       --teal-soft: #e6f6f3;
-      --shadow: 0 10px 30px rgba(17, 33, 63, 0.06);
+      --shadow: 0 12px 32px rgba(17, 33, 63, 0.07);
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body { touch-action: manipulation; }
     body {
       margin: 0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: radial-gradient(circle at top left, #eef4ff 0%, var(--bg) 45%, #f7f9fc 100%);
+      background: radial-gradient(circle at top left, #eef4ff 0%, var(--bg) 50%, #f7f9fc 100%);
       color: var(--ink);
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: max(24px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+      padding: max(18px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
     }
     .wrap {
       width: 100%;
-      max-width: 960px;
+      max-width: 780px;
     }
-    header {
-      margin-bottom: 28px;
+    .hero {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      height: clamp(190px, 30vh, 260px);
+      margin-bottom: 18px;
+      box-shadow: 0 16px 40px rgba(15, 27, 51, 0.14);
+      background: #141c2e;
     }
-    .eyebrow {
-      font-size: 12px;
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 30%;
+      display: block;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(12, 20, 38, 0.08) 20%, rgba(12, 20, 38, 0.78) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px 22px;
+      color: #fff;
+    }
+    .hero-eyebrow {
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
+      color: rgba(255, 255, 255, 0.78);
+      margin-bottom: 4px;
     }
-    h1 {
-      margin: 0 0 8px;
-      font-size: 30px;
-      letter-spacing: -0.02em;
-    }
-    .lead {
+    .hero h1 {
       margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
+      font-size: clamp(22px, 5vw, 28px);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+    .hero p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
     }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-      gap: 20px;
+      gap: 14px;
     }
     .card {
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 0;
-      overflow: hidden;
+      border-radius: 18px;
+      padding: 20px 22px;
       box-shadow: var(--shadow);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      gap: 14px;
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
       text-decoration: none;
       color: inherit;
     }
-    .card-cover {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-      background: #e9eff8;
-      position: relative;
-      border-bottom: 1px solid var(--line);
-    }
-    .card-cover img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.25s ease;
-    }
-    .card:hover .card-cover img {
-      transform: scale(1.03);
-    }
-    .card-cover.listen img { object-position: 50% 30%; }
-    .card-cover.vocab img { object-position: 50% 38%; }
-    .card-body {
-      padding: 22px 24px 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex: 1;
-    }
     .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 16px 38px rgba(17, 33, 63, 0.10);
+      transform: translateY(-2px);
+      box-shadow: 0 16px 36px rgba(17, 33, 63, 0.10);
       border-color: #c5d6f5;
+    }
+    .card:active {
+      transform: scale(0.99);
     }
     .card-top {
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 14px;
     }
     .badge {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #fff;
       flex-shrink: 0;
-      background: #eef3fa;
     }
-    .badge img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
+    .badge.listen { background: linear-gradient(135deg, #111d33, #0f8a78); }
+    .badge.vocab { background: linear-gradient(135deg, #11213f, #2254b8); }
     .card h2 {
       margin: 0;
-      font-size: 20px;
+      font-size: 19px;
+      letter-spacing: -0.01em;
     }
     .card small {
       display: block;
       color: var(--muted);
-      margin-top: 2px;
-      font-size: 13px;
-    }
-    .desc {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.65;
-      margin: 0 0 18px;
-    }
-    .pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 20px;
-    }
-    .pill {
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: #164ea8;
-    }
-    .pill.teal {
-      background: var(--teal-soft);
-      color: var(--teal);
+      margin-top: 3px;
+      font-size: 12.5px;
     }
     .stats {
-      font-size: 13px;
+      font-size: 12.5px;
       color: var(--muted);
-      padding-top: 14px;
+      padding-top: 12px;
       border-top: 1px solid var(--line);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
     .cta {
       font-weight: 700;
       color: var(--accent);
       white-space: nowrap;
     }
+    .cta.teal {
+      color: var(--teal);
+    }
     .footer {
-      margin-top: 22px;
-      font-size: 13px;
+      margin-top: 16px;
+      font-size: 12px;
       color: var(--muted);
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: 10px;
+      gap: 8px;
+      padding: 0 4px;
     }
     .dot {
       display: inline-block;
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #16a34a;
       margin-right: 6px;
@@ -202,69 +183,48 @@
 </head>
 <body>
   <div class="wrap">
-    <header>
-      <div class="eyebrow">LOCAL ENGLISH STUDIO · 100% 离线复刻版</div>
-      <h1>英语学习本地工作室</h1>
-      <p class="lead">完整接续 2026-11-19 最新云端进度。所有作答与复习记录实时写入本机磁盘 <code>data/</code> 并自动滚动备份，不再受远端云同步中断或跳题 Bug 影响。</p>
+    <header class="hero">
+      <img src="./cover.jpg" alt="英语学习台封面">
+      <div class="hero-overlay">
+        <div class="hero-eyebrow">ENGLISH STUDIO</div>
+        <h1>今天练哪一项？</h1>
+        <p>选择一个模块开始，训练页内随时可返回切换</p>
+      </div>
     </header>
 
     <div class="grid">
-      <a class="card" href="./vocab/">
-        <div class="card-cover vocab">
-          <img src="./vocab/cover.jpg" alt="词汇听写台封面">
-        </div>
-        <div class="card-body">
+      <a class="card" href="./listening/">
+        <div class="card-top">
+          <div class="badge listen">◢</div>
           <div>
-            <div class="card-top">
-              <div class="badge"><img src="./vocab/icon-192.png" alt="听写台图标"></div>
-              <div>
-                <h2>词汇听写台 v13</h2>
-                <small>完整 1,750 词 · 35 天轻量计划</small>
-              </div>
-            </div>
-            <p class="desc">保留原版快速学习、主动回忆、五词连播听写、每日 100 词间隔复习与错后强制订正流程。已彻底修复原站“输入蹦出旧字母、点下一题回跳原题”的同步覆盖 Bug。</p>
-            <div class="pills">
-              <span class="pill">完整 1,750 词（含中文与词性）</span>
-              <span class="pill teal">已修复输入回弹 Bug</span>
-            </div>
+            <h2>英语听力训练台</h2>
+            <small>53 套真题 · 1 · 2 · 7 三步精听与错题本</small>
           </div>
-          <div class="stats">
-            <span id="vocab-meta">正在读取本机进度…</span>
-            <span class="cta">进入听写台 →</span>
-          </div>
+        </div>
+        <div class="stats">
+          <span id="listen-meta">正在读取进度…</span>
+          <span class="cta teal">进入听力 →</span>
         </div>
       </a>
 
-      <a class="card" href="./listening/">
-        <div class="card-cover listen">
-          <img src="./listening/cover.jpg" alt="英语听力训练台封面">
-        </div>
-        <div class="card-body">
+      <a class="card" href="./vocab/">
+        <div class="card-top">
+          <div class="badge vocab">W</div>
           <div>
-            <div class="card-top">
-              <div class="badge"><img src="./listening/icon-192.png" alt="听力台图标"></div>
-              <div>
-                <h2>英语听力训练台 v8</h2>
-                <small>53 套完整真题 · 1 · 2 · 7 节奏</small>
-              </div>
-            </div>
-            <p class="desc">完整还原 v8 每日一主任务、Day 2 三步精听（盲听 → 错题与双语文字稿 → 关稿验证）、自动错题本、批次 5–8 中英文时间轴，以及批次 6 的 49 段独立校准原声切片。</p>
-            <div class="pills">
-              <span class="pill">53 套 MP3 + 74 张原题页</span>
-              <span class="pill teal">49 段校准切片 + 中英双语精听</span>
-            </div>
+            <h2>词汇听写台</h2>
+            <small>1,750 词 · 35 天计划 · 五词听写与复习</small>
           </div>
-          <div class="stats">
-            <span id="listen-meta">正在读取本机进度…</span>
-            <span class="cta">进入听力台 →</span>
-          </div>
+        </div>
+        <div class="stats">
+          <span id="vocab-meta">正在读取进度…</span>
+          <span class="cta">进入听写 →</span>
         </div>
       </a>
     </div>
 
     <div class="footer">
-      <div id="studio-status"><span class="dot"></span>本地持久化服务运行中（支持音频拖拽与 A–B 循环）</div>
-      <div id="studio-hint">数据目录：<code>data/vocab-progress.json</code> · <code>data/listening-progress.json</code></div>
+      <div id="studio-status"><span class="dot"></span>进度自动保存</div>
+      <div id="studio-hint">可添加到手机主屏幕使用</div>
     </div>
   </div>
 
@@ -286,11 +246,10 @@
 
     async function renderStaticFallback() {
       document.getElementById('studio-status').innerHTML =
-        '<span class="dot"></span>纯静态网页运行中 · 进度自动保存在当前浏览器';
+        '<span class="dot"></span>进度保存在当前浏览器';
       document.getElementById('studio-hint').textContent =
-        '可分别进入两台点「添加到主屏幕」生成手机独立图标';
+        '可添加到手机主屏幕 · 建议定期导出备份';
 
-      // Vocab summary from localStorage or seed
       let vp = null;
       try { vp = JSON.parse(localStorage.getItem('vocab-listening-lab-v1') || 'null'); } catch {}
       if (!vp) {
@@ -299,12 +258,11 @@
       if (vp) {
         const done = new Set([...(vp.completedGroups || []).filter(id => id <= 12), ...(vp.dailyCompletedGroups || [])]).size;
         document.getElementById('vocab-meta').textContent =
-          `当前 Day ${vp.selectedGroup || 1} · 已完成 ${done} 天 · 累计 ${Object.keys(vp.records || {}).length} 词记录`;
+          `Day ${vp.selectedGroup || 1} · 已完成 ${done} 天 · ${Object.keys(vp.records || {}).length} 词`;
       } else {
         document.getElementById('vocab-meta').textContent = '准备就绪';
       }
 
-      // Listening summary from localStorage or seed
       let lp = null;
       try { lp = JSON.parse(localStorage.getItem('listening-desk-progress-v1') || 'null'); } catch {}
       if (!lp) {
@@ -315,7 +273,7 @@
         const dt = lp.dailyTask;
         const doneToday = dt && dt.date === todayLocal && dt.completed;
         document.getElementById('listen-meta').textContent =
-          `共 ${total} 批（含此前 ${(lp.legacy || []).length} 批）· ${doneToday ? '今日主任务已完成' : '今日有待办任务'}`;
+          `共 ${total} 批 · ${doneToday ? '今日已完成' : '今日有待办'}`;
       } else {
         document.getElementById('listen-meta').textContent = '准备就绪';
       }
@@ -328,23 +286,27 @@
       })
       .then(d => {
         if (!d?.ok) throw new Error('static');
+        document.getElementById('studio-status').innerHTML =
+          '<span class="dot"></span>本地持久化服务运行中';
+        document.getElementById('studio-hint').textContent =
+          '进度实时写入本机磁盘 data/';
         if (d.vocab) {
           document.getElementById('vocab-meta').textContent =
-            `当前 Day ${d.vocab.selectedGroup} · 已完成 ${d.vocab.completedDays} 天 · 累计 ${d.vocab.recordedWords} 词记录`;
+            `Day ${d.vocab.selectedGroup} · 已完成 ${d.vocab.completedDays} 天 · ${d.vocab.recordedWords} 词`;
         }
         if (d.listening) {
           const dt = d.listening.dailyTask;
           const total = d.listening.totalBatches ?? (d.listening.units + d.listening.legacyBatches);
           const isToday = dt && dt.date === (d.today || todayLocal);
-          let status = '今日有待办任务';
+          let status = '今日有待办';
           if (isToday && dt.completed) {
-            status = '今日主任务已完成';
+            status = '今日已完成';
           } else if (isToday) {
             const st = STAGE_SHORT[d.listening.todayStage || dt.kind] || '待办';
-            status = `今日待办：批次 ${d.listening.todayBatch} · ${st}`;
+            status = `批次 ${d.listening.todayBatch} · ${st}`;
           }
           document.getElementById('listen-meta').textContent =
-            `共 ${total} 批（含此前 ${d.listening.legacyBatches} 批）· ${status}`;
+            `共 ${total} 批 · ${status}`;
         }
       })
       .catch(renderStaticFallback);

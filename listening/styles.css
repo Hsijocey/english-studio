@@ -21,8 +21,6 @@
 /* Mobile & touch ergonomics */
 *{ -webkit-tap-highlight-color:transparent }
 html{ touch-action:manipulation }
-.brand-mark.brand-cover{transform:none;overflow:hidden;padding:0;background:#1c2b46;border:1px solid rgba(255,255,255,.18);box-shadow:0 6px 16px rgba(0,0,0,.28)}
-.brand-mark.brand-cover img{width:100%;height:100%;object-fit:cover;display:block}
 .mobile-home-link{display:none;margin-left:auto;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,.1);color:#cfe0ff;text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap}
 .page-image{cursor:zoom-in}
 .img-lightbox{position:fixed;inset:0;z-index:80;background:rgba(9,16,30,.92);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:56px 12px 24px;-webkit-overflow-scrolling:touch}
