@@ -2,6 +2,7 @@
   "use strict";
 
   const groups = Array.isArray(window.VOCAB_GROUPS) ? window.VOCAB_GROUPS : [];
+  const collocations = (window.VOCAB_COLLOCATIONS && typeof window.VOCAB_COLLOCATIONS === "object") ? window.VOCAB_COLLOCATIONS : {};
   const plan = window.VocabPlan;
   const newId = () => {
     if(window.crypto?.randomUUID)return window.crypto.randomUUID();
@@ -12,26 +13,33 @@
   const review = window.VocabReview;
   const dayKey = () => review ? review.dayKey() : new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Sydney',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   const tomorrow = () => Date.now() + 24 * 60 * 60 * 1000;
-  const intervals = [1, 3, 7, 14, 30];
   let availableVoices = [];
   let autoplayTimer = null;
+  let delayedCueTimer = null;
   let speakChainTimer = null;
   let speakWatchdogTimer = null;
   let speakToken = 0;
   let activeUtterances = [];
+  let showBatchClues = false;
 
   const $ = (id) => document.getElementById(id);
   const els = {
     sidebar: $("sidebar"), sidebarBackdrop: $("sidebarBackdrop"), groupList: $("groupList"), sidebarClose: $("sidebarClose"), menuButton: $("menuButton"),
     groupEyebrow: $("groupEyebrow"), pageTitle: $("pageTitle"), todayAttempts: $("todayAttempts"), todayAccuracy: $("todayAccuracy"), dueCount: $("dueCount"),
     sessionLabel: $("sessionLabel"), cardProgressText: $("cardProgressText"), progressFill: $("progressFill"), promptKicker: $("promptKicker"),
-    mainPrompt: $("mainPrompt"), promptDetail: $("promptDetail"), speakButton: $("speakButton"), answerForm: $("answerForm"), answerInput: $("answerInput"),
+    mainPrompt: $("mainPrompt"), collocLine: $("collocLine"), promptDetail: $("promptDetail"), meaningAnchor: $("meaningAnchor"),
+    speakControls: $("speakControls"), speakButton: $("speakButton"), speakWordOnly: $("speakWordOnly"),
+    fastTrackBar: $("fastTrackBar"), fastTrackPass: $("fastTrackPass"), leechBadge: $("leechBadge"),
+    answerForm: $("answerForm"), answerInput: $("answerInput"), hintButton: $("hintButton"), hintPreview: $("hintPreview"), answerHint: $("answerHint"),
     batchAnswerForm: $("batchAnswerForm"), batchInputs: $("batchInputs"), batchCheckButton: $("batchCheckButton"), checkButton: $("checkButton"),
+    batchHeadingText: $("batchHeadingText"), batchSubHint: $("batchSubHint"), toggleBatchClues: $("toggleBatchClues"),
+    dictationPlanTitle: $("dictationPlanTitle"), dictationPlanDesc: $("dictationPlanDesc"),
     manualWordActions: $("manualWordActions"), addWrongButton: $("addWrongButton"),
     feedback: $("feedback"), cardActions: $("cardActions"), unsureButton: $("unsureButton"), nextButton: $("nextButton"), practiceCard: $("practiceCard"),
     emptyCard: $("emptyCard"), emptyIcon: $("emptyIcon"), emptyTitle: $("emptyTitle"), emptyText: $("emptyText"), restartButton: $("restartButton"), wrongBadge: $("wrongBadge"),
     wrongCount: $("wrongCount"), blockLabel: $("blockLabel"), startWrongReview: $("startWrongReview"), startBlockReview: $("startBlockReview"),
-    autoPlay: $("autoPlay"), resetProgress: $("resetProgress"), resetDialog: $("resetDialog"), cancelReset: $("cancelReset"), confirmReset: $("confirmReset"),
+    autoPlay: $("autoPlay"), studyAutoPlay: $("studyAutoPlay"), fastTrackToggle: $("fastTrackToggle"),
+    resetProgress: $("resetProgress"), resetDialog: $("resetDialog"), cancelReset: $("cancelReset"), confirmReset: $("confirmReset"),
     studyState: $("studyState"), recallState: $("recallState"), dictationState: $("dictationState"), planMinutes: $("planMinutes"),
     progressNotice: $("progressNotice"), storageStatus: $("storageStatus"), exportProgress: $("exportProgress"),
     importProgress: $("importProgress"), retrySave: $("retrySave"), reloadProgress: $("reloadProgress"), restoreBackup: $("restoreBackup"), reviewLoad: $("reviewLoad"), syncNow: $("syncNow"), syncSignIn: $("syncSignIn")
@@ -46,7 +54,11 @@
     groupSessions: {},
     today: { date: dayKey(), attempts: 0, correct: 0 },
     voiceLang: "en-GB",
-    autoPlay: true
+    autoPlay: true,
+    studyAutoPlay: true,
+    reviewCueMode: "colloc",
+    batchSize: 3,
+    fastTrack: true
   };
 
   const persistence = window.VocabProgress;
@@ -76,7 +88,8 @@
     answers: [],
     result: null,
     repeat: false,
-    lastQueue: []
+    lastQueue: [],
+    hintLevel: 0
   };
   const itemByKey = new Map(groups.flatMap(group => group.words.map(word => [plan.wordKey(word, group.id), { ...word, groupId: group.id }])));
   const allItems = [...itemByKey.values()];
@@ -327,10 +340,82 @@
     setSidebarOpen(false);
   }
 
+  function escHtml(v) {
+    return String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  }
+
+  function batchSize() {
+    return [3, 5].includes(progress.batchSize) ? progress.batchSize : 3;
+  }
+
+  function collocationFor(item) {
+    if (!item) return null;
+    const raw = collocations[keyFor(item)];
+    if (!raw || !raw.includes("____")) return null;
+    return {
+      blank: raw,
+      filled: raw.replace("____", item.word)
+    };
+  }
+
+  function renderCollocHtml(colloc, revealWord = null) {
+    if (!colloc) return "";
+    const parts = colloc.blank.split("____");
+    const mid = revealWord
+      ? `<span class="colloc-word">${escHtml(revealWord)}</span>`
+      : `<span class="colloc-blank">____</span>`;
+    return `${escHtml(parts[0])}${mid}${escHtml(parts.slice(1).join("____"))}`;
+  }
+
+  function maskWord(word, level) {
+    const letters = [...String(word || "")];
+    const n = letters.length;
+    if (n <= 2) return `${letters[0] || "_"} ${"_ ".repeat(Math.max(0, n - 1)).trim()} (${n})`;
+    const shown = letters.map((ch, idx) => {
+      if (ch === " " || ch === "-" || ch === "'") return ch;
+      if (idx === 0) return ch;
+      if (n >= 4 && idx === n - 1) return ch;
+      if (level >= 2 && idx % 2 === 0) return ch;
+      return "_";
+    });
+    return `${shown.join(" ")} (${n} 字母)`;
+  }
+
+  function levenshtein(a, b) {
+    const s = normalizeAnswer(a), t = normalizeAnswer(b);
+    if (s === t) return 0;
+    if (!s.length) return t.length;
+    if (!t.length) return s.length;
+    const dp = Array.from({ length: t.length + 1 }, (_, i) => i);
+    for (let i = 1; i <= s.length; i++) {
+      let prev = dp[0];
+      dp[0] = i;
+      for (let j = 1; j <= t.length; j++) {
+        const temp = dp[j];
+        dp[j] = s[i - 1] === t[j - 1] ? prev : 1 + Math.min(prev, dp[j], dp[j - 1]);
+        prev = temp;
+      }
+    }
+    return dp[t.length];
+  }
+
   function currentItem() { return state.queue[state.index]; }
 
   function currentBatch() {
-    return state.mode === "dictation" ? state.queue.slice(state.index, state.index + 5) : [currentItem()].filter(Boolean);
+    if (state.mode !== "dictation") return [currentItem()].filter(Boolean);
+    const sz = state.answered && state.result?.results?.length ? state.result.results.length : batchSize();
+    return state.queue.slice(state.index, state.index + sz);
+  }
+
+  function resolveVoiceLang(offset = 0) {
+    if (progress.voiceLang === "mixed") {
+      return (state.index + offset) % 2 === 0 ? "en-GB" : "en-US";
+    }
+    return progress.voiceLang === "en-US" ? "en-US" : "en-GB";
+  }
+
+  function voiceBadge(lang) {
+    return progress.voiceLang === "mixed" ? (lang === "en-GB" ? " [UK]" : " [US]") : "";
   }
 
   function focusCurrentAnswer() {
@@ -362,6 +447,11 @@
     })[0];
   }
 
+  function clearDelayedCue() {
+    if (delayedCueTimer) window.clearTimeout(delayedCueTimer);
+    delayedCueTimer = null;
+  }
+
   function stopPlayback() {
     speakToken += 1;
     if (autoplayTimer) window.clearTimeout(autoplayTimer);
@@ -378,7 +468,6 @@
 
   function scheduleAutoplay(callback, fromGesture = false) {
     if (fromGesture) {
-      // Keep iOS Safari user-gesture activation stack intact
       callback();
       return;
     }
@@ -389,7 +478,7 @@
     }, 220);
   }
 
-  function speakWords(words, { userInitiated = false } = {}) {
+  function speakWords(words, { userInitiated = false, lang = null, gapMs = 420 } = {}) {
     if (!words?.length) return;
     if (!("speechSynthesis" in window)) {
       if (userInitiated) {
@@ -400,19 +489,20 @@
     }
     stopPlayback();
     const myToken = speakToken;
-    const voice = preferredVoice(progress.voiceLang);
+    const effectiveLang = lang || resolveVoiceLang(0);
+    const voice = preferredVoice(effectiveLang);
 
-    // Chain utterances one by one with a short natural pause & watchdog to avoid
-    // iOS Safari / Android Chrome stalling mid-batch when 5 utterances are queued at once.
     const speakAt = (idx) => {
       if (myToken !== speakToken || idx >= words.length) return;
-      const word = words[idx];
-      const utterance = new SpeechSynthesisUtterance(word);
-      utterance.lang = progress.voiceLang;
-      utterance.rate = progress.voiceLang === "en-US" ? 0.82 : 0.87;
+      const text = words[idx];
+      const itemLang = lang || (progress.voiceLang === "mixed" && words.length > 1 ? resolveVoiceLang(idx) : effectiveLang);
+      const itemVoice = itemLang === effectiveLang ? voice : preferredVoice(itemLang);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = itemLang;
+      utterance.rate = itemLang === "en-US" ? 0.84 : 0.88;
       utterance.pitch = 1;
       utterance.volume = 1;
-      if (voice) utterance.voice = voice;
+      if (itemVoice) utterance.voice = itemVoice;
 
       let settled = false;
       const advance = () => {
@@ -426,7 +516,7 @@
           speakChainTimer = window.setTimeout(() => {
             speakChainTimer = null;
             speakAt(idx + 1);
-          }, 420);
+          }, gapMs);
         }
       };
 
@@ -462,7 +552,7 @@
         return;
       }
 
-      const maxWait = Math.max(4500, word.length * 450);
+      const maxWait = Math.max(4500, text.length * 420);
       speakWatchdogTimer = window.setTimeout(() => {
         speakWatchdogTimer = null;
         if (!settled && myToken === speakToken && idx + 1 < words.length) {
@@ -476,6 +566,13 @@
   }
 
   function speak(word = currentItem()?.word, opts) { speakWords(word ? [word] : [], opts); }
+  function speakReviewPrompt(item = currentItem(), opts) {
+    if (!item) return;
+    const mode = progress.reviewCueMode || "colloc";
+    const colloc = mode !== "blind" ? collocationFor(item) : null;
+    if (colloc) speakWords([colloc.filled], opts);
+    else speak(item.word, opts);
+  }
   function speakBatch(opts) { speakWords(currentBatch().map((item) => item.word), opts); }
 
   function iconSpeaker() {
@@ -483,15 +580,22 @@
   }
 
   function sessionCopy() {
-    if (state.sessionKind === "wrong") return { label: "每日复习 · 老词答对才减 1", kicker: "老词答错当天队尾再测；看答案订正不抵扣，今日新词错题另算" };
-    if (state.sessionKind === "block") return { label: "五组综合复测 · 5 词连播", kicker: "每轮连续听 5 个词，再按顺序填写" };
-    if (state.mode === "study") return { label: "快速建立第一印象", kicker: "先看英文、中文和词性，只看一遍" };
-    if (state.mode === "recall") return { label: "主动提取 · 中文 → 英文", kicker: "遮住答案，强迫自己想 3–5 秒" };
-    return { label: "听写 · 5 词连续捕捉", kicker: "连续听 5 个词，再按顺序写下来" };
+    const sz = batchSize();
+    if (state.sessionKind === "wrong") {
+      const cueMode = progress.reviewCueMode || "colloc";
+      if (cueMode === "colloc") return { label: "FSRS 智能复习 · 微搭配先音后义", kicker: "先听微搭配锁定发音，1.5 秒后淡入中文防同音误判；卡壳可点「提示」" };
+      if (cueMode === "meaning") return { label: "FSRS 智能复习 · 语音 + 中文锚定", kicker: "听音结合释义快速拼写；高稳态老词可走快轨" };
+      return { label: "FSRS 智能复习 · 纯盲听挑战", kicker: "仅靠听觉提取拼写；若同音听岔答错后可对比听音并改判" };
+    }
+    if (state.sessionKind === "block") return { label: `五组综合复测 · ${sz} 词连播`, kicker: `每轮连续听 ${sz} 个词，再按顺序填写` };
+    if (state.mode === "study") return { label: "快速建立音·形·义印象", kicker: "边听发音边看拼写与微搭配，只看一遍" };
+    if (state.mode === "recall") return { label: "主动提取 · 中文 → 英文", kicker: "遮住英文，先想 3–5 秒；卡壳可点「提示」" };
+    return { label: `听写 · ${sz} 词连续捕捉`, kicker: `连续听 ${sz} 个词，再按顺序写下来（可展开搭配提示防同音）` };
   }
 
   function renderBatchInputs(batch) {
     els.batchInputs.innerHTML = "";
+    els.batchInputs.classList.toggle("cols-3", batch.length <= 3);
     batch.forEach((item, index) => {
       const wrap = document.createElement("div");
       wrap.className = "batch-input-wrap";
@@ -507,6 +611,13 @@
       input.dataset.index = String(index);
       input.setAttribute("aria-label", `第 ${index + 1} 个单词`);
       wrap.append(label, input);
+      if (showBatchClues) {
+        const clue = document.createElement("div");
+        clue.className = "batch-clue-text";
+        const colloc = collocationFor(item);
+        clue.textContent = colloc ? `${colloc.blank} · ${item.meaning}` : `${item.meaning} (${item.pos})`;
+        wrap.appendChild(clue);
+      }
       const addButton = document.createElement("button");
       addButton.type = "button";
       addButton.className = "secondary-button manual-wrong-button batch-wrong-button";
@@ -518,23 +629,52 @@
       els.batchInputs.appendChild(wrap);
     });
     els.batchCheckButton.textContent = `检查这 ${batch.length} 个`;
+    if (els.toggleBatchClues) {
+      els.toggleBatchClues.textContent = showBatchClues ? "隐藏搭配/中文提示" : "显示搭配/中文提示";
+    }
+  }
+
+  function renderHintUI(item) {
+    const canHint = (state.mode === "review" || state.mode === "recall") && !state.answered && !!item;
+    if (els.hintButton) {
+      els.hintButton.classList.toggle("hidden", !canHint);
+      els.hintButton.disabled = !canHint || state.hintLevel >= 2;
+      els.hintButton.textContent = state.hintLevel === 0 ? "提示" : state.hintLevel === 1 ? "再提示" : "已提示";
+    }
+    if (els.hintPreview) {
+      if (canHint && state.hintLevel > 0) {
+        els.hintPreview.textContent = `拼写提示：${maskWord(item.word, state.hintLevel)}`;
+        els.hintPreview.classList.remove("hidden");
+      } else {
+        els.hintPreview.textContent = "";
+        els.hintPreview.classList.add("hidden");
+      }
+    }
   }
 
   function renderPractice({ fromGesture = false } = {}) {
     stopPlayback();
+    clearDelayedCue();
+    state.hintLevel = 0;
     const item = currentItem();
     if (!item) {
       showCompletion();
       return;
     }
+    const rec = recordFor(item);
+    const colloc = collocationFor(item);
+    const curLang = resolveVoiceLang(0);
+    const badge = voiceBadge(curLang);
+
     els.practiceCard.classList.remove("hidden");
     els.emptyCard.classList.add("hidden");
     const copy = sessionCopy();
     els.sessionLabel.textContent = copy.label;
     els.promptKicker.textContent = copy.kicker;
     const batch = currentBatch();
-    const shownIndex = state.mode === "dictation" ? Math.floor(state.index / 5) + 1 : state.index + 1;
-    const shownTotal = state.mode === "dictation" ? Math.ceil(state.queue.length / 5) : state.queue.length;
+    const sz = batchSize();
+    const shownIndex = state.mode === "dictation" ? Math.floor(state.index / sz) + 1 : state.index + 1;
+    const shownTotal = state.mode === "dictation" ? Math.ceil(state.queue.length / sz) : state.queue.length;
     const completedThrough = state.mode === "dictation" ? Math.min(state.index + batch.length, state.queue.length) : state.index + 1;
     els.cardProgressText.textContent = state.mode === "dictation" ? `第 ${shownIndex} / ${shownTotal} 轮` : `${shownIndex} / ${shownTotal}`;
     els.progressFill.style.width = `${(completedThrough / state.queue.length) * 100}%`;
@@ -547,20 +687,43 @@
     els.nextButton.disabled = false;
     els.answerForm.classList.add("hidden");
     els.batchAnswerForm.classList.add("hidden");
-    els.speakButton.innerHTML = `${iconSpeaker()}播放发音`;
+    els.collocLine.classList.add("hidden");
+    els.collocLine.innerHTML = "";
+    els.meaningAnchor.classList.add("hidden");
+    els.meaningAnchor.classList.remove("masked");
+    els.meaningAnchor.innerHTML = "";
+    els.speakWordOnly.classList.add("hidden");
+    els.fastTrackBar.classList.add("hidden");
+    els.leechBadge.classList.toggle("hidden", !review.isLeech(rec));
+    els.speakButton.innerHTML = `${iconSpeaker()}播放发音${badge}`;
 
     if (state.mode === "study") {
       els.mainPrompt.className = "main-prompt";
       els.mainPrompt.textContent = item.word;
+      if (colloc) {
+        els.collocLine.innerHTML = renderCollocHtml(colloc, item.word);
+        els.collocLine.classList.remove("hidden");
+      }
       els.promptDetail.textContent = `${item.meaning} · ${item.pos}`;
       els.cardActions.classList.remove("hidden");
       els.unsureButton.classList.remove("hidden");
       els.unsureButton.textContent = "不熟，留下";
       els.nextButton.textContent = "下一个";
       els.speakButton.classList.remove("hidden");
+      if (colloc) {
+        els.speakWordOnly.classList.remove("hidden");
+        els.speakWordOnly.textContent = "读搭配";
+      }
+      if (progress.studyAutoPlay !== false) {
+        scheduleAutoplay(() => speak(item.word, { userInitiated: fromGesture }), fromGesture);
+      }
     } else if (state.mode === "recall") {
       els.mainPrompt.className = "main-prompt chinese";
       els.mainPrompt.textContent = item.meaning;
+      if (colloc) {
+        els.collocLine.innerHTML = renderCollocHtml(colloc, null);
+        els.collocLine.classList.remove("hidden");
+      }
       els.promptDetail.textContent = item.pos;
       els.answerForm.classList.remove("hidden");
       els.cardActions.classList.add("hidden");
@@ -574,18 +737,61 @@
       els.batchAnswerForm.classList.remove("hidden");
       els.cardActions.classList.add("hidden");
       els.speakButton.classList.remove("hidden");
-      els.speakButton.innerHTML = `${iconSpeaker()}重播这 ${batch.length} 个词`;
+      els.speakButton.innerHTML = `${iconSpeaker()}重播这 ${batch.length} 个词${badge}`;
       if (progress.autoPlay && !state.answered) scheduleAutoplay(() => speakBatch({ userInitiated: fromGesture }), fromGesture);
     } else {
+      // Review mode: FSRS + Audio-First Micro-Collocation Disambiguation + Optional Fast-Track
+      const cueMode = progress.reviewCueMode || "colloc";
       els.mainPrompt.className = "main-prompt audio-only";
       els.mainPrompt.innerHTML = iconSpeaker();
+      if (cueMode !== "blind" && colloc) {
+        els.collocLine.innerHTML = renderCollocHtml(colloc, null);
+        els.collocLine.classList.remove("hidden");
+      }
       els.promptDetail.textContent = `${item.pos} · 第 ${item.groupId} 组`;
+
+      if (cueMode === "meaning") {
+        els.meaningAnchor.innerHTML = `<span class="anchor-text"><strong>${escHtml(item.meaning)}</strong></span>`;
+        els.meaningAnchor.classList.remove("hidden", "masked");
+      } else if (cueMode === "colloc") {
+        // Audio-first delayed meaning anchor (1.5s) to prevent visual overshadowing while eliminating homophone ambiguity
+        els.meaningAnchor.innerHTML = `<span class="anchor-text">中文锚点：<strong>${escHtml(item.meaning)}</strong></span><button type="button" class="anchor-reveal-btn" id="revealMeaningBtn">显中文防撞音</button>`;
+        els.meaningAnchor.classList.remove("hidden");
+        const revealBtn = els.meaningAnchor.querySelector("#revealMeaningBtn");
+        const revealNow = () => {
+          clearDelayedCue();
+          els.meaningAnchor.classList.remove("masked");
+          revealBtn?.classList.add("hidden");
+        };
+        if (state.answered) {
+          revealNow();
+        } else {
+          els.meaningAnchor.classList.add("masked");
+          revealBtn?.addEventListener("click", revealNow);
+          delayedCueTimer = window.setTimeout(revealNow, 1500);
+        }
+      }
+
       els.answerForm.classList.remove("hidden");
       els.cardActions.classList.add("hidden");
       els.speakButton.classList.remove("hidden");
-      els.speakButton.innerHTML = `${iconSpeaker()}播放发音`;
-      if (progress.autoPlay && !state.answered) scheduleAutoplay(() => speak(item.word, { userInitiated: fromGesture }), fromGesture);
+      if (cueMode !== "blind" && colloc) {
+        els.speakButton.innerHTML = `${iconSpeaker()}播搭配发音${badge}`;
+        els.speakWordOnly.classList.remove("hidden");
+        els.speakWordOnly.textContent = "单读词";
+      } else {
+        els.speakButton.innerHTML = `${iconSpeaker()}播放发音${badge}`;
+      }
+
+      // Fast-track bar for mature high-stability words
+      const showFast = !state.answered && progress.fastTrack !== false && review.isFastTrackEligible(rec);
+      els.fastTrackBar.classList.toggle("hidden", !showFast);
+
+      if (progress.autoPlay && !state.answered) {
+        scheduleAutoplay(() => speakReviewPrompt(item, { userInitiated: fromGesture }), fromGesture);
+      }
     }
+    renderHintUI(item);
     if (state.answered) renderAnswerResult();
     renderManualControls();
   }
@@ -622,10 +828,13 @@
     els.wrongBadge.textContent = wrong.length;
     els.startWrongReview.disabled = wrong.length === 0;
     if(cloud&&!cloud.canReviewDay(dayKey()))els.startWrongReview.disabled=true;
-    els.reviewLoad.textContent = `往期已答对 ${load.oldDone} / ${load.oldSelected} · 往期待做 ${load.oldPending} · 今日新词错题 ${load.newPending}（另计）${load.deferred ? ` · 其余 ${load.deferred} 个往期词顺延` : ""}`;
+    els.reviewLoad.textContent = `今日已过 ${load.oldDone} / ${load.oldSelected} · 鲜活待巩固 ${load.freshPending ?? load.oldPending} · 历史重学 ${load.backlogPending ?? 0}${load.newPending ? ` · 新词错题 ${load.newPending}` : ""}${load.deferred ? ` · 其余 ${load.deferred} 词顺延` : ""}`;
     els.studyState.textContent = persistence.stageDone(progress, state.groupId, "study") ? "已完成" : "开始";
     els.recallState.textContent = persistence.stageDone(progress, state.groupId, "recall") ? "已完成" : "开始";
     els.dictationState.textContent = persistence.stageDone(progress, state.groupId, "dictation") ? "已完成" : "开始";
+    const sz = batchSize();
+    if (els.dictationPlanTitle) els.dictationPlanTitle.textContent = sz === 3 ? "三词连续听写" : "五词连续听写";
+    if (els.dictationPlanDesc) els.dictationPlanDesc.textContent = `连续听 ${sz} 个，再按顺序写`;
     renderManualControls();
   }
 
@@ -634,32 +843,33 @@
     renderHeader();
     renderStats();
     els.autoPlay.checked = progress.autoPlay;
+    if (els.studyAutoPlay) els.studyAutoPlay.checked = progress.studyAutoPlay !== false;
+    if (els.fastTrackToggle) els.fastTrackToggle.checked = progress.fastTrack !== false;
     document.querySelectorAll(".voice-option").forEach((button) => button.classList.toggle("active", button.dataset.lang === progress.voiceLang));
+    document.querySelectorAll(".cue-option").forEach((button) => button.classList.toggle("active", button.dataset.cueMode === (progress.reviewCueMode || "colloc")));
+    document.querySelectorAll(".batch-size-option").forEach((button) => button.classList.toggle("active", Number(button.dataset.batchSize) === batchSize()));
     renderPractice(options);
   }
 
-  function markRecord(item, correct, flagged = false) {
+  function markRecord(item, correct, flagged = false, { hintUsed = false } = {}) {
     const key = keyFor(item);
     const previous = recordFor(item);
-    const next = { ...previous };
-    if (!previous.attempts && !previous.firstLearnedAt && state.sessionKind === "group") next.firstLearnedAt = Date.now();
-    next.attempts += 1;
-    next.lastSeen = Date.now();
-    if (correct && !flagged) {
-      next.correct += 1;
-      next.streak += 1;
-      const keepManual = previous.manualPending === true && state.mode !== "review";
-      next.flagged = keepManual;
-      if (previous.manualPending) next.manualPending = keepManual;
-      const days = intervals[Math.min(next.streak - 1, intervals.length - 1)];
-      next.dueAt = keepManual ? Math.min(previous.dueAt || Date.now(), Date.now()) : Date.now() + days * 24 * 60 * 60 * 1000;
-    } else {
-      next.streak = 0;
-      next.flagged = true;
-      next.dueAt = tomorrow();
-    }
+    const now = Date.now();
+    const grade = !correct || flagged ? "again" : hintUsed ? "hint" : "good";
+    const next = review.gradeRecord(previous, grade, {
+      now,
+      mode: state.mode,
+      isFirstLearn: state.sessionKind === "group"
+    });
     progress.records[key] = next;
-    cloudLib?.write(progress,key,clientId,'attempt',{record:next,correct:correct&&!flagged,mode:state.mode,countToday:state.mode!=='study',day:dayKey(),now:Date.now()});
+    cloudLib?.write(progress, key, clientId, "attempt", {
+      record: next,
+      correct: grade !== "again",
+      mode: state.mode,
+      countToday: state.mode !== "study",
+      day: dayKey(),
+      now
+    });
   }
 
   function normalizeAnswer(value) {
@@ -670,6 +880,48 @@
     return state.mode === "review" && state.answered && state.result?.results[0]?.correct === false && state.result.correction?.done !== true;
   }
 
+  function passFastTrack() {
+    if (!canAct() || state.mode !== "review" || state.answered || !currentItem()) return;
+    const item = currentItem();
+    if (!review.schedule(progress, allItems).keys.includes(keyFor(item))) {
+      startSession("review", "wrong", { fromGesture: true });
+      return;
+    }
+    clearDelayedCue();
+    state.answered = true;
+    state.answers = [item.word];
+    state.result = { type: "single", results: [{ key: keyFor(item), answer: item.word, correct: true }], fastTracked: true };
+    progress.today.attempts += 1;
+    progress.today.correct += 1;
+    markRecord(item, true, false);
+    review.markReviewed(progress, item, allItems, Date.now(), true);
+    if (state.index === state.queue.length - 1) markSessionComplete();
+    saveProgress();
+    renderAnswerResult(); renderGroups(); renderStats();
+  }
+
+  function forgiveHomophoneSlip() {
+    if (!canAct() || state.mode !== "review" || !state.answered || !currentItem()) return;
+    const item = currentItem();
+    const key = keyFor(item);
+    if (!state.result?.results?.[0] || state.result.results[0].correct) return;
+    // Re-grade cleanly as independent recall and remove from today's retry tail
+    const now = Date.now();
+    const prev = recordFor(item);
+    const fixed = review.gradeRecord({ ...prev, flagged: false, lapses: Math.max(0, (prev.lapses || 1) - 1) }, "good", { now, mode: "review" });
+    progress.records[key] = fixed;
+    progress.today.correct = Math.min(progress.today.attempts, progress.today.correct + 1);
+    state.result = { type: "single", results: [{ key, answer: item.word, correct: true }], forgiven: true };
+    review.markReviewed(progress, item, allItems, now, true);
+    // Remove duplicate queued retry of this word from tail
+    for (let i = state.queue.length - 1; i > state.index; i--) {
+      if (keyFor(state.queue[i]) === key) state.queue.splice(i, 1);
+    }
+    state.lastQueue = [...state.queue];
+    saveProgress();
+    renderAnswerResult(); renderGroups(); renderStats();
+  }
+
   function submitAnswer(value) {
     if (!canAct()) return null;
     if (needsCorrection()) {
@@ -677,7 +929,6 @@
       if (!item || !normalizeAnswer(value)) { els.answerInput.focus(); return { accepted: false, reason: "empty" }; }
       const correct = normalizeAnswer(value) === normalizeAnswer(item.word);
       state.result.correction = { draft: value, done: correct };
-      // Copying a visible answer is correction, not a new successful recall.
       saveProgress(); renderAnswerResult();
       return { accepted: true, correct, correction: true, expected: item.word, meaning: item.meaning };
     }
@@ -693,21 +944,28 @@
       els.answerInput.focus();
       return { accepted: false, reason: "empty" };
     }
+    clearDelayedCue();
     const correct = answer === normalizeAnswer(item.word);
+    const hintUsed = correct && state.hintLevel > 0;
     state.answered = true;
     state.answers = [value];
-    state.result = { type: "single", results: [{ key: keyFor(item), answer, correct }], ...(state.mode === "review" && !correct ? { correction: { draft: "", done: false } } : {}) };
+    state.result = {
+      type: "single",
+      results: [{ key: keyFor(item), answer, correct }],
+      ...(hintUsed ? { hintUsed: true } : {}),
+      ...(state.mode === "review" && !correct ? { correction: { draft: "", done: false } } : {})
+    };
     progress.today.attempts += 1;
     if (correct) progress.today.correct += 1;
-    markRecord(item, correct, !correct);
+    markRecord(item, correct, !correct, { hintUsed });
     if (state.mode === "review") {
-      review.markReviewed(progress,item,allItems,Date.now(),correct);
-      appendOldRetry(item);
+      review.markReviewed(progress, item, allItems, Date.now(), correct);
+      if (!correct) appendOldRetry(item);
     }
     if (state.index === state.queue.length - 1) markSessionComplete();
     saveProgress();
     renderAnswerResult(); renderGroups(); renderStats();
-    return { accepted: true, correct, expected: item.word, meaning: item.meaning };
+    return { accepted: true, correct, hintUsed, expected: item.word, meaning: item.meaning };
   }
 
   function submitBatchAnswers(values) {
@@ -752,20 +1010,73 @@
     els.feedback.className = `feedback ${results.every(result => result.correct) ? "correct" : "incorrect"}`;
     els.cardActions.classList.remove("hidden");
     els.nextButton.disabled = needsCorrection();
+    els.fastTrackBar.classList.add("hidden");
+    renderHintUI(currentItem());
     if (state.result.type === "single") {
-      const { item, correct } = results[0];
+      const { item, correct, answer } = results[0];
+      const colloc = collocationFor(item);
+      if (colloc) {
+        els.collocLine.innerHTML = renderCollocHtml(colloc, item.word);
+        els.collocLine.classList.remove("hidden");
+      }
+      if (state.mode === "review") {
+        els.meaningAnchor.classList.remove("masked");
+        els.meaningAnchor.querySelector("#revealMeaningBtn")?.classList.add("hidden");
+      }
       const pending = needsCorrection();
       els.answerInput.disabled = !pending;
       els.checkButton.disabled = !pending;
       els.checkButton.textContent = pending ? "检查订正" : "检查";
       if (state.mode === "review" && !correct) els.answerInput.value = state.result.correction?.draft || "";
-      const oldRetry=state.mode==='review'&&!review.isNew(recordFor(item),dayKey())&&review.schedule(progress,allItems).keys.includes(keyFor(item));
-      els.feedback.innerHTML = state.result.guessed ? `<strong>已留下：</strong>${item.word} · ${oldRetry?'今天队尾会再测，不抵扣剩余数量。':'明天会优先复习。'}`
-        : correct ? `<strong>正确。</strong> ${item.word} · ${item.meaning}`
-        : `<strong>正确答案：${item.word}</strong> · ${item.meaning}。这个词已进入错词复习。`;
-      if (pending) els.feedback.innerHTML += `<br>请看着上面的答案，重新输入并答对一次，才能继续。`;
-      else if (state.mode === "review" && !correct && state.result.correction?.done) els.feedback.innerHTML += `<br><strong>已订正，可以继续。</strong> ${oldRetry?'今天队尾会隐藏答案再测；独立答对才减 1。':'原来的错误仍保留，之后会再复习。'}`;
-      els.unsureButton.textContent = "我其实是蒙的";
+      const rec = recordFor(item);
+      const nextDays = rec.dueAt > Date.now() ? Math.max(1, Math.round((rec.dueAt - Date.now()) / 86400000)) : 1;
+      const oldRetry = state.mode === 'review' && !review.isNew(rec, dayKey()) && review.schedule(progress, allItems).keys.includes(keyFor(item));
+
+      let msg = "";
+      if (state.result.guessed) {
+        msg = `<strong>已留下：</strong>${escHtml(item.word)} · ${oldRetry ? '今天队尾会再测，不抵扣剩余数量。' : '已软降级，近期再测。'}`;
+      } else if (state.result.forgiven) {
+        msg = `<strong>已改判通过：</strong>${escHtml(item.word)} · ${escHtml(item.meaning)}（下次约 ${nextDays} 天后复测）`;
+      } else if (state.result.fastTracked) {
+        msg = `<strong>⚡ 快轨通过：</strong>${escHtml(item.word)} · ${escHtml(item.meaning)}（下次约 ${nextDays} 天后复测）`;
+      } else if (state.result.hintUsed) {
+        msg = `<strong>借助提示答对（半掌握）：</strong>${escHtml(item.word)} · ${escHtml(item.meaning)}（${nextDays} 天后再独立验收）`;
+      } else if (correct) {
+        msg = `<strong>正确。</strong> ${escHtml(item.word)} · ${escHtml(item.meaning)}（下次约 ${nextDays} 天后复测）`;
+      } else {
+        msg = `<strong>正确答案：${escHtml(item.word)}</strong> · ${escHtml(item.meaning)}（你写了：${escHtml(answer || "空白")}）`;
+      }
+
+      if (pending) msg += `<br>请看着上面的答案，重新输入并答对一次，才能继续。`;
+      else if (state.mode === "review" && !correct && state.result.correction?.done) {
+        msg += `<br><strong>已订正，可以继续。</strong> ${oldRetry ? '今天队尾会再验一次；已采用软降级，不会清零全部历史。' : '已安排近期再测。'}`;
+      }
+      els.feedback.innerHTML = msg;
+
+      // Minimal-pair audio contrast & homophone slip forgiveness when wrong
+      if (!correct && answer && /^[a-z][a-z\s'-]*$/i.test(answer)) {
+        const tools = document.createElement("div");
+        tools.className = "feedback-tools";
+        const compareBtn = document.createElement("button");
+        compareBtn.type = "button";
+        compareBtn.className = "feedback-tool-btn";
+        compareBtn.textContent = `🔊 对比听：「${answer}」vs「${item.word}」`;
+        compareBtn.addEventListener("click", () => speakWords([answer, item.word], { userInitiated: true, gapMs: 550 }));
+        tools.appendChild(compareBtn);
+
+        const dist = levenshtein(answer, item.word);
+        if (state.mode === "review" && dist <= 3 && answer.length >= 2) {
+          const forgiveBtn = document.createElement("button");
+          forgiveBtn.type = "button";
+          forgiveBtn.className = "feedback-tool-btn";
+          forgiveBtn.textContent = "只是同音听岔·改判通过";
+          forgiveBtn.addEventListener("click", forgiveHomophoneSlip);
+          tools.appendChild(forgiveBtn);
+        }
+        els.feedback.appendChild(tools);
+      }
+
+      els.unsureButton.textContent = state.result.fastTracked ? "其实想错了，留下重练" : "我其实是蒙的";
       els.unsureButton.classList.toggle("hidden", !correct || state.result.guessed);
       els.nextButton.textContent = state.index === state.queue.length - 1 ? "完成本轮" : "下一个";
       if (state.mode === "recall") els.speakButton.classList.remove("hidden");
@@ -792,7 +1103,8 @@
     });
     els.feedback.replaceChildren(list);
     els.unsureButton.classList.add("hidden");
-    els.nextButton.textContent = state.index + results.length >= state.queue.length ? "完成本轮" : "下一组 5 词";
+    const nextSz = Math.min(batchSize(), Math.max(0, state.queue.length - (state.index + results.length)));
+    els.nextButton.textContent = state.index + results.length >= state.queue.length ? "完成本轮" : `下一组 ${nextSz} 词`;
   }
 
   function appendOldRetry(item) {
@@ -806,7 +1118,7 @@
   function nextItem() {
     if (!canAct() || !currentItem()) return;
     if (needsCorrection()) { els.answerInput.focus(); return; }
-    if(state.answered)appendOldRetry(currentItem());
+    if(state.answered && !state.result?.results?.[0]?.correct) appendOldRetry(currentItem());
     if (state.mode === "study") {
       state.index += 1;
     } else if (state.mode === "dictation" && state.answered) {
@@ -816,7 +1128,7 @@
     } else {
       return;
     }
-    state.answered = false; state.answers = []; state.result = null;
+    state.answered = false; state.answers = []; state.result = null; state.hintLevel = 0;
     if (state.index >= state.queue.length) showCompletion();
     else {
       renderPractice({ fromGesture: true });
@@ -831,9 +1143,10 @@
     if (!item) return;
     if (state.mode !== "study" && state.answered) {
       if (state.result?.guessed) return;
-      progress.records[keyFor(item)] = { ...recordFor(item), flagged: true, streak: 0, dueAt: tomorrow() };
-      cloudLib?.write(progress,keyFor(item),clientId,'guessed',{record:progress.records[keyFor(item)],now:Date.now()});
-      if (state.mode==='review'||review.isNew(recordFor(item),dayKey())) review.reopen(progress,keyFor(item),allItems);
+      const now = Date.now();
+      progress.records[keyFor(item)] = review.gradeRecord(recordFor(item), "again", { now, mode: state.mode });
+      cloudLib?.write(progress, keyFor(item), clientId, "guessed", { record: progress.records[keyFor(item)], now });
+      if (state.mode === 'review' || review.isNew(recordFor(item), dayKey())) review.reopen(progress, keyFor(item), allItems);
       state.result.guessed = true;
       appendOldRetry(item);
       renderAnswerResult();
@@ -951,16 +1264,61 @@
   document.querySelectorAll(".voice-option").forEach((button) => button.addEventListener("click", () => {
     if (!canAct()) return;
     progress.voiceLang = button.dataset.lang;
-    progress.preferencesAt=Date.now();
+    progress.preferencesAt = Date.now();
     saveProgress();
     renderAll();
     if (state.mode === "dictation") speakBatch({ userInitiated: true });
+    else if (state.mode === "review") speakReviewPrompt(currentItem(), { userInitiated: true });
     else speak(currentItem()?.word, { userInitiated: true });
   }));
-  els.speakButton.addEventListener("click", () => state.mode === "dictation" ? speakBatch({ userInitiated: true }) : speak(currentItem()?.word, { userInitiated: true }));
+  document.querySelectorAll(".cue-option").forEach((button) => button.addEventListener("click", () => {
+    if (!canAct()) return;
+    progress.reviewCueMode = button.dataset.cueMode;
+    progress.preferencesAt = Date.now();
+    saveProgress();
+    renderAll({ fromGesture: true });
+  }));
+  document.querySelectorAll(".batch-size-option").forEach((button) => button.addEventListener("click", () => {
+    if (!canAct()) return;
+    progress.batchSize = Number(button.dataset.batchSize) === 5 ? 5 : 3;
+    progress.preferencesAt = Date.now();
+    saveProgress();
+    renderAll({ fromGesture: state.mode === "dictation" });
+  }));
+  els.speakButton.addEventListener("click", () => {
+    if (state.mode === "dictation") speakBatch({ userInitiated: true });
+    else if (state.mode === "review") speakReviewPrompt(currentItem(), { userInitiated: true });
+    else speak(currentItem()?.word, { userInitiated: true });
+  });
+  els.speakWordOnly?.addEventListener("click", () => {
+    const item = currentItem();
+    if (!item) return;
+    if (state.mode === "study") {
+      const c = collocationFor(item);
+      speak(c ? c.filled : item.word, { userInitiated: true });
+    } else {
+      speak(item.word, { userInitiated: true });
+    }
+  });
+  els.hintButton?.addEventListener("click", () => {
+    const item = currentItem();
+    if (!item || state.answered || state.hintLevel >= 2) return;
+    state.hintLevel += 1;
+    renderHintUI(item);
+    els.answerInput.focus();
+  });
+  els.fastTrackPass?.addEventListener("click", passFastTrack);
+  els.toggleBatchClues?.addEventListener("click", () => {
+    showBatchClues = !showBatchClues;
+    const savedVals = [...els.batchInputs.querySelectorAll("input")].map(i => i.value);
+    renderBatchInputs(currentBatch());
+    [...els.batchInputs.querySelectorAll("input")].forEach((input, idx) => { input.value = savedVals[idx] || ""; });
+    if (state.answered) renderAnswerResult();
+  });
   els.mainPrompt.addEventListener("click", () => {
     if (state.mode === "dictation") speakBatch({ userInitiated: true });
-    else if (state.mode !== "study" && state.mode !== "recall") speak(currentItem()?.word, { userInitiated: true });
+    else if (state.mode === "review") speakReviewPrompt(currentItem(), { userInitiated: true });
+    else if (state.mode === "study") speak(currentItem()?.word, { userInitiated: true });
   });
   els.answerForm.addEventListener("submit", (event) => { event.preventDefault(); submitAnswer(els.answerInput.value); });
   els.batchAnswerForm.addEventListener("submit", (event) => {
@@ -1005,6 +1363,8 @@
   els.startBlockReview.addEventListener("click", () => startSession("dictation", "block", { fromGesture: true }));
   els.restartButton.addEventListener("click", () => startSession(state.mode, state.sessionKind, { restart: true, fromGesture: true }));
   els.autoPlay.addEventListener("change", () => { if (!canAct()) return; progress.autoPlay = els.autoPlay.checked; progress.preferencesAt=Date.now(); saveProgress(); });
+  els.studyAutoPlay?.addEventListener("change", () => { if (!canAct()) return; progress.studyAutoPlay = els.studyAutoPlay.checked; progress.preferencesAt = Date.now(); saveProgress(); });
+  els.fastTrackToggle?.addEventListener("change", () => { if (!canAct()) return; progress.fastTrack = els.fastTrackToggle.checked; progress.preferencesAt = Date.now(); saveProgress(); renderPractice(); });
   els.menuButton.addEventListener("click", () => setSidebarOpen(true));
   els.sidebarClose.addEventListener("click", () => setSidebarOpen(false));
   els.sidebarBackdrop?.addEventListener("click", () => setSidebarOpen(false));
@@ -1101,9 +1461,10 @@
       return;
     }
     if (event.key === "Escape") { setSidebarOpen(false); els.resetDialog.classList.add("hidden"); }
-    if (event.code === "Space" && document.activeElement === document.body && state.mode !== "study") {
+    if (event.code === "Space" && document.activeElement === document.body) {
       event.preventDefault();
       if (state.mode === "dictation") speakBatch({ userInitiated: true });
+      else if (state.mode === "review") speakReviewPrompt(currentItem(), { userInitiated: true });
       else speak(currentItem()?.word, { userInitiated: true });
     }
   });

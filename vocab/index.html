@@ -92,11 +92,22 @@
               <div class="prompt-zone" id="promptZone">
                 <div class="prompt-kicker" id="promptKicker">先看英文、中文和词性，只看一遍</div>
                 <div class="main-prompt" id="mainPrompt">加载中…</div>
+                <div class="colloc-line hidden" id="collocLine"></div>
                 <div class="prompt-detail" id="promptDetail"></div>
-                <button class="speak-button" id="speakButton" aria-label="播放发音">播放发音</button>
+                <div class="meaning-anchor hidden" id="meaningAnchor"></div>
+                <div class="speak-controls" id="speakControls">
+                  <button type="button" class="speak-button" id="speakButton" aria-label="播放发音">播放发音</button>
+                  <button type="button" class="speak-button speak-sub hidden" id="speakWordOnly" aria-label="单独播放该词发音">单读词</button>
+                </div>
+              </div>
+
+              <div class="fast-track-bar hidden" id="fastTrackBar">
+                <span>⚡ 高稳态老词 · 秒懂可直接过，犹豫则在下方拼写</span>
+                <button type="button" class="compact-button fast-track-btn" id="fastTrackPass">秒懂会拼，直接过</button>
               </div>
 
               <div class="manual-word-actions" id="manualWordActions">
+                <span class="leech-badge hidden" id="leechBadge">重点难词</span>
                 <button type="button" class="secondary-button manual-wrong-button" id="addWrongButton">＋ 加入错题</button>
               </div>
 
@@ -104,18 +115,23 @@
                 <label for="answerInput">输入英文拼写</label>
                 <div class="answer-row">
                   <input id="answerInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="听到或想到什么，就写下来" />
+                  <button type="button" class="secondary-button hint-button hidden" id="hintButton">提示</button>
                   <button type="submit" class="primary-button" id="checkButton">检查</button>
                 </div>
-                <div class="answer-hint">按 Enter 检查 · 不确定也先想 3–5 秒</div>
+                <div class="hint-preview hidden" id="hintPreview"></div>
+                <div class="answer-hint" id="answerHint">按 Enter 检查 · 不确定也先想 3–5 秒</div>
               </form>
 
               <form class="batch-answer-form hidden" id="batchAnswerForm">
                 <div class="batch-form-heading">
-                  <span>按听到的顺序填写</span>
-                  <small>前四格按 Enter 跳到下一格，最后一格提交</small>
+                  <span id="batchHeadingText">按听到的顺序填写</span>
+                  <div class="batch-heading-right">
+                    <button type="button" class="text-button batch-clue-toggle" id="toggleBatchClues">显示搭配/中文提示</button>
+                    <small id="batchSubHint">按 Enter 跳下一格，最后一格提交</small>
+                  </div>
                 </div>
                 <div class="batch-inputs" id="batchInputs"></div>
-                <button type="submit" class="primary-button batch-check-button" id="batchCheckButton">检查这 5 个</button>
+                <button type="submit" class="primary-button batch-check-button" id="batchCheckButton">检查这 3 个</button>
               </form>
 
               <div class="feedback hidden" id="feedback" role="status" aria-live="polite"></div>
@@ -152,15 +168,15 @@
               </button>
               <button class="plan-item" data-start-mode="dictation">
                 <span class="plan-number">03</span>
-                <span><strong>五词连续听写</strong><small>连续听 5 个，再按顺序写</small></span>
+                <span><strong id="dictationPlanTitle">三词连续听写</strong><small id="dictationPlanDesc">连续听 3 个，再按顺序写</small></span>
                 <span class="plan-state" id="dictationState">开始</span>
               </button>
             </section>
 
             <section class="rail-card review-card">
               <div class="rail-heading-row">
-                <h2>间隔复习</h2>
-                <span>老词答对才减 1</span>
+                <h2>FSRS 智能复习</h2>
+                <span>优先抢救鲜活词</span>
               </div>
               <div class="review-metric">
                 <div><strong id="wrongCount">0</strong><span>今日安排（含新词错题）</span></div>
@@ -168,8 +184,8 @@
               </div>
               <p id="reviewLoad" class="review-load" role="status"></p>
               <details class="review-policy">
-                <summary>100 个怎么选？</summary>
-                <p>按原词库复习，不补无关词。老词每天最多选择 100 个不同词，独立答对才减 1。答错先看答案订正，再排到当天队尾隐藏答案重测；重试次数不受 100 限制。比如做 10 个错 1 个，还剩 91 个。独立答对后仍按 1、3、7、14、30 天安排后续复习。每日老词名额约一半优先近期薄弱词，一半优先最早到期词；一边不足时由另一边补齐。未选中的保留原到期日顺延，不提前抽未到期的词凑数。今日首次练习后答错的新词另计；答错仍须看答案订正一次。</p>
+                <summary>复习如何防雪崩、消同音？</summary>
+                <p>① 默认用 2–4 词微搭配「先音后义」出题，既训练耳朵听辨，又避免同音词冤枉错；② 采用轻量 FSRS 提取率降序排队：优先拉住 1–7 天刚到期的鲜活词（保住 80%–85% 甜点正确率），再每日稳步消化历史积压；③ 曾经熟过的词偶尔拼错只软降一档，不打回第 1 天；④ 用「提示」答对算半掌握，1–2 天后再验。</p>
               </details>
               <div class="review-metric">
                 <div><strong id="blockLabel">第 16–20 组</strong><span>五组综合复测</span></div>
@@ -178,11 +194,34 @@
             </section>
 
             <section class="rail-card settings-card">
-              <div class="rail-heading-row"><h2>发音设置</h2></div>
-              <div class="voice-switch" role="group" aria-label="发音口音">
-                <button class="voice-option" data-lang="en-GB">英音</button>
-                <button class="voice-option active" data-lang="en-US">美音</button>
-                <label><input id="autoPlay" type="checkbox" checked /> 听写自动播放</label>
+              <div class="rail-heading-row"><h2>发音与训练设置</h2><span>科学增强</span></div>
+              <div class="setting-block">
+                <div class="setting-label">口音模式（多口音更贴近雅思）</div>
+                <div class="segmented-switch" role="group" aria-label="发音口音">
+                  <button type="button" class="voice-option" data-lang="en-GB">英音</button>
+                  <button type="button" class="voice-option active" data-lang="en-US">美音</button>
+                  <button type="button" class="voice-option" data-lang="mixed">英美轮换</button>
+                </div>
+              </div>
+              <div class="setting-block">
+                <div class="setting-label">复习出题线索（消除同音盲猜）</div>
+                <div class="segmented-switch" role="group" aria-label="复习线索模式">
+                  <button type="button" class="cue-option active" data-cue-mode="colloc">微搭配·先音后义</button>
+                  <button type="button" class="cue-option" data-cue-mode="meaning">音+中文</button>
+                  <button type="button" class="cue-option" data-cue-mode="blind">纯盲听</button>
+                </div>
+              </div>
+              <div class="setting-block">
+                <div class="setting-label">新词连播听写个数</div>
+                <div class="segmented-switch" role="group" aria-label="连播词数">
+                  <button type="button" class="batch-size-option active" data-batch-size="3">3 词（护脑推荐）</button>
+                  <button type="button" class="batch-size-option" data-batch-size="5">5 词挑战</button>
+                </div>
+              </div>
+              <div class="setting-checks">
+                <label><input id="autoPlay" type="checkbox" checked /> 听写 / 复习自动播放</label>
+                <label><input id="studyAutoPlay" type="checkbox" checked /> 快速学习自动带读</label>
+                <label><input id="fastTrackToggle" type="checkbox" checked /> 高稳态老词快轨抽检</label>
               </div>
             </section>
 
@@ -217,6 +256,7 @@
     </div>
 
     <script src="./vocab-data.js"></script>
+    <script src="./collocations.js"></script>
     <script src="./plan.js"></script>
     <script src="./review.js"></script>
     <script src="./cloud-shared.js"></script>
