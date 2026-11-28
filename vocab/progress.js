@@ -8,6 +8,7 @@
   const BACKUP_KEY = `${KEY}-backup`;
   const UPGRADE_BACKUP_KEY = `${KEY}-before-v6`;
   const PLAN_BACKUP_KEY = `${KEY}-before-plan45-v1`;
+  const PLAN30_BACKUP_KEY = `${KEY}-before-plan30-v2`;
   const RESTORE_BACKUP_KEY = `${KEY}-before-restore`;
   const modes = ["study", "recall", "dictation", "review"];
   const kinds = ["group", "wrong", "block"];
@@ -30,7 +31,8 @@
       for (const field of ["dueAt", "lastSeen", "firstLearnedAt", "lastReviewAt", "lastLearningAt", "stability", "difficulty"]) if (record[field] !== undefined && (!Number.isFinite(record[field]) || record[field] < 0)) throw Error("复习时间无法读取。");
     }
     if ((input.sessions !== undefined && !object(input.sessions)) || (input.groupSessions !== undefined && !object(input.groupSessions))) throw Error("训练位置无法读取。");
-    if (input.planVersion !== undefined && input.planVersion !== plan?.VERSION) throw Error("学习计划版本无法读取。");
+    const supportedVersions = plan?.SUPPORTED_VERSIONS || (plan ? [plan.VERSION] : []);
+    if (input.planVersion !== undefined && !supportedVersions.includes(input.planVersion)) throw Error("学习计划版本无法读取。");
     if (input.dailyCompletedGroups !== undefined && (!Array.isArray(input.dailyCompletedGroups) || !input.dailyCompletedGroups.every(id => Number.isInteger(id) && id > plan.KEEP && ids.has(id)))) throw Error("已完成学习日无法读取。");
     const wordKeys = new Set(groups.flatMap(group => group.words.map(word => plan ? plan.wordKey(word, group.id) : `${group.id}:${word.word}`)));
     if (input.reviewDay !== undefined) {
@@ -126,14 +128,17 @@
         let legacy = false, previous = null;
         try { previous = JSON.parse(store.raw); legacy = object(previous) && (previous.schema === undefined || previous.schema === 1); } catch {}
         const safeSet = (k, v) => { try { storage.setItem(k, v); return true; } catch { return false; } };
-        if (plan && next.planVersion === plan.VERSION && store.raw !== null && previous?.planVersion !== plan.VERSION && storage.getItem(PLAN_BACKUP_KEY) === null) safeSet(PLAN_BACKUP_KEY, store.raw);
+        if (plan && next.planVersion === plan.VERSION && store.raw !== null && previous?.planVersion !== plan.VERSION) {
+          const backupSlot = previous?.planVersion === 1 ? PLAN30_BACKUP_KEY : PLAN_BACKUP_KEY;
+          if (storage.getItem(backupSlot) === null) safeSet(backupSlot, store.raw);
+        }
         if (legacy && storage.getItem(UPGRADE_BACKUP_KEY) === null) safeSet(UPGRADE_BACKUP_KEY, store.raw);
         if (store.raw !== null) safeSet(BACKUP_KEY, store.raw);
         try {
           storage.setItem(KEY, raw);
         } catch {
           // Mobile Safari/WebView 5MB quota fallback: evict redundant localStorage backup keys first
-          for (const extraKey of [UPGRADE_BACKUP_KEY, PLAN_BACKUP_KEY, RESTORE_BACKUP_KEY, BACKUP_KEY]) {
+          for (const extraKey of [UPGRADE_BACKUP_KEY, PLAN_BACKUP_KEY, PLAN30_BACKUP_KEY, RESTORE_BACKUP_KEY, BACKUP_KEY]) {
             try { storage.removeItem(extraKey); } catch {}
           }
           storage.setItem(KEY, raw);
@@ -156,7 +161,7 @@
       try { if (store.raw !== null) storage.setItem(RESTORE_BACKUP_KEY, store.raw); }
       catch {
         // Keep import working even if localStorage is tight; disk backup already protects history
-        for (const extraKey of [UPGRADE_BACKUP_KEY, PLAN_BACKUP_KEY, RESTORE_BACKUP_KEY]) {
+        for (const extraKey of [UPGRADE_BACKUP_KEY, PLAN_BACKUP_KEY, PLAN30_BACKUP_KEY, RESTORE_BACKUP_KEY]) {
           try { storage.removeItem(extraKey); } catch {}
         }
       }
@@ -168,5 +173,5 @@
     return store;
   }
 
-  return { KEY, BACKUP_KEY, UPGRADE_BACKUP_KEY, RESTORE_BACKUP_KEY, PLAN_BACKUP_KEY, normalize, stageDone, recommendedMode, initialSession, createStore };
+  return { KEY, BACKUP_KEY, UPGRADE_BACKUP_KEY, RESTORE_BACKUP_KEY, PLAN_BACKUP_KEY, PLAN30_BACKUP_KEY, normalize, stageDone, recommendedMode, initialSession, createStore };
 });

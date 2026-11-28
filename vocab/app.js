@@ -1169,7 +1169,7 @@
     } else if (state.sessionKind === "wrong") {
       els.emptyTitle.textContent = "今天的错词复习完成";
       const load=review.schedule(progress,allItems);
-      els.emptyText.textContent = `本轮已完成。每天最多选择 100 个不同老词，老词独立答对才减 1；答错先订正，再在当天队尾隐藏答案重测，重试次数不限。今日新词错题另算。${load.deferred ? `另有 ${load.deferred} 个往期词顺延，不会追加到今天。` : ""}${load.keys.length ? "仍有待做词，可点“开始错词复习”继续。" : ""}`;
+      els.emptyText.textContent = `本轮已完成。每天最多选择 ${review.LIMIT} 个不同老词，老词独立答对才减 1；答错先订正，再在当天队尾隐藏答案重测，重试次数不限。今日新词错题另算。${load.deferred ? `另有 ${load.deferred} 个往期词顺延，不会追加到今天。` : ""}${load.keys.length ? "仍有待做词，可点“开始错词复习”继续。" : ""}`;
     } else {
       els.emptyTitle.textContent = "五组综合复测完成";
       els.emptyText.textContent = "这次没有提前看答案。留下的错词，就是下一次真正需要练的内容。";
@@ -1374,7 +1374,7 @@
     // Only clear this browser's localStorage cache and reload cleanly from disk (data/vocab-progress.json).
     // NEVER overwrite the disk progress file with blank defaults from this button.
     try {
-      for (const k of [persistence.KEY, persistence.BACKUP_KEY, persistence.UPGRADE_BACKUP_KEY, persistence.PLAN_BACKUP_KEY, persistence.RESTORE_BACKUP_KEY]) {
+      for (const k of [persistence.KEY, persistence.BACKUP_KEY, persistence.UPGRADE_BACKUP_KEY, persistence.PLAN_BACKUP_KEY, persistence.PLAN30_BACKUP_KEY, persistence.RESTORE_BACKUP_KEY].filter(Boolean)) {
         storage?.removeItem(k);
       }
       cloud?.clearDirty?.();

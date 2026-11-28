@@ -5,7 +5,7 @@
 })(globalThis, function () {
   'use strict';
 
-  const LIMIT = 100;
+  const LIMIT = 50;
   const DAY_MS = 24 * 60 * 60 * 1000;
   const TARGET_RETENTION = 0.85;
   // FSRS-4.5 power-law forgetting curve constants: R(t, S) = (1 + FACTOR * t / S)^DECAY
@@ -180,6 +180,22 @@
     const d = ensureDay(progress, items, now), records = progress.records;
     d.oldKeys = d.oldKeys.filter(k => !isNew(records[k], d.date));
     d.oldDone = d.oldDone.filter(k => d.oldKeys.includes(k));
+    if (d.oldKeys.length > LIMIT) {
+      const keep = new Set(d.oldDone);
+      if (pin && d.oldKeys.includes(pin)) keep.add(pin);
+      if (keep.size >= LIMIT) {
+        d.oldKeys = d.oldKeys.filter(k => keep.has(k));
+      } else {
+        const trimmed = [];
+        let extra = LIMIT - keep.size;
+        for (const k of d.oldKeys) {
+          if (keep.has(k)) trimmed.push(k);
+          else if (extra > 0) { trimmed.push(k); extra--; }
+        }
+        d.oldKeys = trimmed;
+      }
+      d.oldDone = d.oldDone.filter(k => d.oldKeys.includes(k));
+    }
 
     const old = items.filter(w => {
       const r = records[keyFor(w)];
@@ -251,7 +267,7 @@
 
       takeUpTo(freshPool, Math.round(remaining * 0.50));
       takeUpTo(maturePool, Math.round(remaining * 0.30));
-      takeUpTo(backlogPool, Math.max(15, remaining - (selected.size - (LIMIT - remaining))));
+      takeUpTo(backlogPool, Math.max(Math.round(LIMIT * 0.20), remaining - (selected.size - (LIMIT - remaining))));
 
       // Fill any leftover capacity cleanly: fresh -> backlog -> mature
       for (const w of freshPool) add(w);
@@ -309,7 +325,7 @@
     const key = cached?.queue[cached.index], carry = pendingCorrection(cached);
     const active = cached && (!cached.reviewDate || cached.reviewDate === dayKey(now) || carry);
     const drafting = cached && !cached.answered && key && cached.answers?.some(Boolean);
-    const p = schedule(progress, items, now, drafting || active && !cached.answered ? key : null), d = progress.reviewDay;
+    const p = schedule(progress, items, now, drafting || carry || (active && !cached.answered) ? key : null), d = progress.reviewDay;
     const eligible = new Set(p.keys), known = new Set(items.map(keyFor));
     if (drafting) {
       progress.reviewDrafts ||= {};

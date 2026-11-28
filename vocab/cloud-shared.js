@@ -86,8 +86,12 @@ function merge(remote,local,{groups,plan,review,owner,server=false,now=Date.now(
  const allItems=groups.flatMap(g=>g.words.map(w=>({...w,groupId:g.id})));
  review.ensureDay(a,allItems,now);review.ensureDay(b,allItems,now);
  const days=[a.reviewDay,b.reviewDay].filter(d=>d?.date===date),primary=remote?.reviewDay?.date===date?a.reviewDay:days[0];
- out.reviewDay={version:1,completionRule:2,date,oldKeys:[...(primary?.oldKeys||[])].slice(0,100),oldDone:[],newDone:{},cloudLocked:!server};
- if(server&&!remote?.reviewDay?.cloudLocked)for(const d of days)for(const k of d.oldKeys)if(out.reviewDay.oldKeys.length<100&&!out.reviewDay.oldKeys.includes(k))out.reviewDay.oldKeys.push(k);
+ const reviewLimit=review?.LIMIT||50;
+ const primaryDone=new Set(primary?.oldDone||[]);
+ const mergedOldKeys=[];
+ for(const k of primary?.oldKeys||[]){if(primaryDone.has(k)||mergedOldKeys.length<reviewLimit)mergedOldKeys.push(k);}
+ out.reviewDay={version:1,completionRule:2,date,oldKeys:mergedOldKeys,oldDone:[],newDone:{},cloudLocked:!server};
+ if(server&&!remote?.reviewDay?.cloudLocked)for(const d of days)for(const k of d.oldKeys)if(out.reviewDay.oldKeys.length<reviewLimit&&!out.reviewDay.oldKeys.includes(k))out.reviewDay.oldKeys.push(k);
  for(const d of days){for(const k of d.oldDone||[])if(out.reviewDay.oldKeys.includes(k)&&!out.reviewDay.oldDone.includes(k))out.reviewDay.oldDone.push(k);for(const [k,v]of Object.entries(d.newDone||{}))out.reviewDay.newDone[k]=Math.max(v,out.reviewDay.newDone[k]||0);}
  for(const [k,r]of Object.entries(out.records)){
   if(review.isNew(r,date)&&r.lastReviewAt>=r.lastLearningAt&&r.lastReviewAt>0)out.reviewDay.newDone[k]=r.attempts;
